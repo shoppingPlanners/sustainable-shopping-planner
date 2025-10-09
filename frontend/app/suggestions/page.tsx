@@ -4,7 +4,8 @@ import { Badge } from "@/components/ui/badge"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Input } from "@/components/ui/input"
 import { Leaf, Star, ExternalLink, Filter, Search } from "lucide-react"
-import Link from "next/link"
+import { Navigation } from "@/components/navigation"
+import { tracker } from "@/lib/tracking"
 
 // Mock data for clothing suggestions
 const suggestions = [
@@ -83,30 +84,14 @@ const suggestions = [
 ]
 
 export default function SuggestionsPage() {
+  if (typeof window !== "undefined") {
+    // send page view
+    void tracker.sendEvent({ event_type: "page_view", page: "/suggestions" })
+  }
   return (
     <div className="min-h-screen bg-background">
       {/* Navigation */}
-      <nav className="border-b border-border bg-card/50 backdrop-blur-sm">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center gap-2">
-              <Leaf className="h-6 w-6 text-primary" />
-              <span className="font-semibold text-lg text-foreground">StyleSustain</span>
-            </div>
-            <div className="flex items-center gap-6">
-              <Link href="/" className="text-muted-foreground hover:text-primary transition-colors">
-                Home
-              </Link>
-              <Link href="/suggestions" className="text-foreground hover:text-primary transition-colors">
-                Discover
-              </Link>
-              <Link href="/about" className="text-muted-foreground hover:text-primary transition-colors">
-                About
-              </Link>
-            </div>
-          </div>
-        </div>
-      </nav>
+      <Navigation />
 
       {/* Header Section */}
       <section className="py-12 px-4 sm:px-6 lg:px-8 bg-muted/30">
@@ -154,7 +139,10 @@ export default function SuggestionsPage() {
 
               <div className="relative w-full sm:w-[200px]">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input placeholder="Search brands..." className="pl-9" />
+                <Input placeholder="Search brands..." className="pl-9" onBlur={(e)=>{
+                  const q = e.currentTarget.value?.trim()
+                  if(q) void tracker.sendEvent({ event_type: "search", keywords: q.split(/\s+/) })
+                }} />
               </div>
             </div>
           </div>
@@ -175,6 +163,7 @@ export default function SuggestionsPage() {
                     src={item.image || "/placeholder.svg"}
                     alt={item.name}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    onLoad={()=>{ void tracker.sendEvent({ event_type: "view_item", item_id: String(item.id), page: "/suggestions", tags: item.features }) }}
                   />
                 </div>
 
@@ -218,7 +207,7 @@ export default function SuggestionsPage() {
                   </div>
 
                   {/* Buy Button */}
-                  <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground group/btn" asChild>
+                  <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground group/btn" asChild onClick={()=>{ void tracker.sendEvent({ event_type: "click", element: "shop_now", item_id: String(item.id) }) }}>
                     <a href={item.buyUrl} target="_blank" rel="noopener noreferrer">
                       Shop Now
                       <ExternalLink className="h-4 w-4 ml-2 group-hover/btn:translate-x-0.5 transition-transform" />

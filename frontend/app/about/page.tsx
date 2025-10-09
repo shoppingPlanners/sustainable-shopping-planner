@@ -3,32 +3,17 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge"
 import { Leaf, Heart, Shield, Users, Globe, Recycle, Award, CheckCircle } from "lucide-react"
 import Link from "next/link"
+import { Navigation } from "@/components/navigation"
+import { tracker } from "@/lib/tracking"
 
 export default function AboutPage() {
+  if (typeof window !== 'undefined') {
+    void tracker.sendEvent({ event_type: 'page_view', page: '/about' })
+  }
   return (
     <div className="min-h-screen bg-background">
       {/* Navigation */}
-      <nav className="border-b border-border bg-card/50 backdrop-blur-sm">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center gap-2">
-              <Leaf className="h-6 w-6 text-primary" />
-              <span className="font-semibold text-lg text-foreground">StyleSustain</span>
-            </div>
-            <div className="flex items-center gap-6">
-              <Link href="/" className="text-muted-foreground hover:text-primary transition-colors">
-                Home
-              </Link>
-              <Link href="/suggestions" className="text-muted-foreground hover:text-primary transition-colors">
-                Discover
-              </Link>
-              <Link href="/about" className="text-foreground hover:text-primary transition-colors">
-                About
-              </Link>
-            </div>
-          </div>
-        </div>
-      </nav>
+      <Navigation />
 
       {/* Hero Section */}
       <section className="py-16 px-4 sm:px-6 lg:px-8">
