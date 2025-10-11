@@ -15,3 +15,17 @@ model User {
   role     String   @default("user")
   createdAt DateTime @default(now())
 }
+
+model Item {
+  id                 String   @id @default(auto()) @map("_id") @db.ObjectId
+  itemId             Int
+  name               String
+  brand              String
+  rating             Float
+  sustainabilityScore Int
+  price              String
+  image              String
+  buyUrl             String
+  features           String[]
+  category           String
+}
