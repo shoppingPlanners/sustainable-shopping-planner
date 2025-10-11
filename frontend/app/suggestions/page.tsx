@@ -8,84 +8,57 @@ import { Input } from "@/components/ui/input"
 import { Leaf, Star, ExternalLink, Filter, Search } from "lucide-react"
 import { Navigation } from "@/components/navigation"
 import { tracker } from "@/lib/tracking"
+import { useState, useEffect } from "react"
 
-// Mock data for clothing suggestions
-const suggestions = [
-  {
-    id: 1,
-    name: "Organic Cotton Classic Tee",
-    brand: "Patagonia",
-    rating: 4.8,
-    sustainabilityScore: 95,
-    price: "$35",
-    image: "/organic-cotton-t-shirt-sustainable-fashion.png",
-    buyUrl: "https://patagonia.com",
-    features: ["Organic Cotton", "Fair Trade", "Carbon Neutral"],
-    category: "tops",
-  },
-  {
-    id: 2,
-    name: "Recycled Denim Jeans",
-    brand: "Everlane",
-    rating: 4.6,
-    sustainabilityScore: 88,
-    price: "$78",
-    image: "/recycled-denim-jeans-sustainable-fashion.png",
-    buyUrl: "https://everlane.com",
-    features: ["Recycled Materials", "Water-Saving Process", "Ethical Production"],
-    category: "bottoms",
-  },
-  {
-    id: 3,
-    name: "Hemp Blend Hoodie",
-    brand: "Tentree",
-    rating: 4.7,
-    sustainabilityScore: 92,
-    price: "$89",
-    image: "/hemp-hoodie-sustainable-fashion.jpg",
-    buyUrl: "https://tentree.com",
-    features: ["Hemp Blend", "Tree Planting Program", "Plastic-Free Packaging"],
-    category: "outerwear",
-  },
-  {
-    id: 4,
-    name: "Bamboo Fiber Dress",
-    brand: "Reformation",
-    rating: 4.5,
-    sustainabilityScore: 90,
-    price: "$128",
-    image: "/bamboo-dress-sustainable-fashion.jpg",
-    buyUrl: "https://reformation.com",
-    features: ["Bamboo Fiber", "Biodegradable", "Low Water Usage"],
-    category: "dresses",
-  },
-  {
-    id: 5,
-    name: "Recycled Polyester Jacket",
-    brand: "Girlfriend Collective",
-    rating: 4.4,
-    sustainabilityScore: 85,
-    price: "$98",
-    image: "/recycled-polyester-jacket-sustainable-fashion.jpg",
-    buyUrl: "https://girlfriend.com",
-    features: ["Recycled Polyester", "Inclusive Sizing", "Transparent Pricing"],
-    category: "outerwear",
-  },
-  {
-    id: 6,
-    name: "Organic Linen Shirt",
-    brand: "Eileen Fisher",
-    rating: 4.9,
-    sustainabilityScore: 96,
-    price: "$158",
-    image: "/organic-linen-shirt-sustainable-fashion.jpg",
-    buyUrl: "https://eileenfisher.com",
-    features: ["Organic Linen", "Timeless Design", "Take-Back Program"],
-    category: "tops",
-  },
-]
+interface Item {
+  id: string;
+  name: string;
+  brand: string;
+  rating: number;
+  sustainabilityScore: number;
+  price: string;
+  image: string;
+  buyUrl: string;
+  features: string[];
+  category: string;
+}
 
 export default function SuggestionsPage() {
+  const [suggestions, setSuggestions] = useState<Item[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
+
+  useEffect(() => {
+    fetchSuggestions();
+  }, [selectedCategory]);
+
+  const fetchSuggestions = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      
+      const params = new URLSearchParams();
+      if (selectedCategory !== "all") {
+        params.append("category", selectedCategory);
+      }
+      
+      const response = await fetch(`http://localhost:8000/api/items?${params.toString()}`);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      setSuggestions(data);
+    } catch (err) {
+      console.error("Failed to fetch suggestions:", err);
+      setError("Failed to load suggestions. Please try again later.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   if (typeof window !== "undefined") {
     // send page view
     void tracker.sendEvent({ event_type: "page_view", page: "/suggestions" })
@@ -113,7 +86,7 @@ export default function SuggestionsPage() {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
-              <Select>
+              <Select value={selectedCategory} onValueChange={setSelectedCategory}>
                 <SelectTrigger className="w-full sm:w-[140px]">
                   <SelectValue placeholder="Category" />
                 </SelectTrigger>
@@ -154,8 +127,30 @@ export default function SuggestionsPage() {
       {/* Suggestions Grid */}
       <section className="py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {suggestions.map((item) => (
+          {loading ? (
+            <div className="flex justify-center items-center py-12">
+              <div className="text-center">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+                <p className="text-muted-foreground">Loading suggestions...</p>
+              </div>
+            </div>
+          ) : error ? (
+            <div className="text-center py-12">
+              <p className="text-destructive mb-4">{error}</p>
+              <Button onClick={fetchSuggestions} variant="outline">
+                Try Again
+              </Button>
+            </div>
+          ) : suggestions.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-muted-foreground mb-4">No items found for the selected category.</p>
+              <Button onClick={() => setSelectedCategory("all")} variant="outline">
+                View All Items
+              </Button>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {suggestions.map((item) => (
               <Card
                 key={item.id}
                 className="group hover:shadow-xl transition-all duration-300 border-border overflow-hidden"
@@ -217,8 +212,9 @@ export default function SuggestionsPage() {
                   </Button>
                 </CardContent>
               </Card>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
 
           {/* Load More */}
           <div className="text-center mt-12">
