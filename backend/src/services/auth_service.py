@@ -15,8 +15,8 @@ async def login_user(email: str, password: str):
     if not user:
         raise Exception("Invalid email or password")
 
-    if not verify_password(password, user.password):
+    if not verify_password(password, user["password"]):
         raise Exception("Invalid email or password")
 
-    token = create_access_token({"sub": user.email, "role": user.role})
+    token = create_access_token({"sub": user["email"], "role": user["role"]})
     return {"access_token": token, "token_type": "bearer"}

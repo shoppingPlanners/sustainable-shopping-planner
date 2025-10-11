@@ -4,16 +4,18 @@ from models import UserRegister, UserLogin
 
 router = APIRouter(prefix="/auth", tags=["Authentication"])
 
+
 @router.post("/register")
-async def register(user_data: UserRegister):
+async def register(payload: UserRegister):
     try:
-        return await auth_service.register_user(user_data.email, user_data.password, user_data.name)
+        return await auth_service.register_user(payload.email, payload.password, payload.name)
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
+
 @router.post("/login")
-async def login(user_data: UserLogin):
+async def login(payload: UserLogin):
     try:
-        return await auth_service.login_user(user_data.email, user_data.password)
+        return await auth_service.login_user(payload.email, payload.password)
     except Exception as e:
         raise HTTPException(status_code=401, detail=str(e))

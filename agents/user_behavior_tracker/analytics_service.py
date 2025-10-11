@@ -2,12 +2,13 @@ import asyncio
 from typing import Dict, List, Any, Optional
 from datetime import datetime, timedelta
 import motor.motor_asyncio
+from motor.motor_asyncio import AsyncIOMotorDatabase
 from models import AnalyticsSummary, TrackingEvent, EventType
 from ai_service import AIService
 from config import settings
 
 class AnalyticsService:
-    def __init__(self, db: motor.motor_asyncio.AsyncIOMotorDatabase):
+    def __init__(self, db: AsyncIOMotorDatabase):
         self.db = db
         self.events_col = db["events"]
         self.profiles_col = db["profiles"]
@@ -297,4 +298,5 @@ class AnalyticsService:
             return "low"
         else:
             return "minimal"
+
 

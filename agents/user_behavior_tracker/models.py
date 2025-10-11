@@ -76,3 +76,4 @@ class AIPrompt(BaseModel):
     max_tokens: int = 500
     temperature: float = 0.7
 
+
