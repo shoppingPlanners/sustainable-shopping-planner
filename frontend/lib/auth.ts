@@ -9,7 +9,7 @@ export type LoginResponse = {
 };
 
 export async function login(email: string, password: string): Promise<LoginResponse> {
-  const res = await fetch(`${BACKEND_URL}/login`, {
+  const res = await fetch(`${BACKEND_URL}/auth/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email, password }),
@@ -24,7 +24,7 @@ export async function login(email: string, password: string): Promise<LoginRespo
 export type RegisterResponse = LoginResponse;
 
 export async function registerAccount(args: { email: string; password: string; name?: string | null; age?: number | null; gender?: string | null; }): Promise<RegisterResponse> {
-  const res = await fetch(`${BACKEND_URL}/register`, {
+  const res = await fetch(`${BACKEND_URL}/auth/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(args),
@@ -39,5 +39,6 @@ export async function registerAccount(args: { email: string; password: string; n
 export function getAuthToken(): string | null {
   return typeof window === "undefined" ? null : localStorage.getItem("ssp_token");
 }
+
 
 

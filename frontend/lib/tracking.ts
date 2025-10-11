@@ -1,125 +1,209 @@
 "use client";
 
-import { BACKEND_URL } from "./config";
+import { TRACKER_URL } from "./config";
 
-type EventPayload = {
+export interface TrackingEvent {
   event_type: string;
-  session_id: string;
-  anonymous_id: string;
-  user_id?: string | null;
-  page?: string | null;
-  element?: string | null;
-  item_id?: string | null;
-  brand_id?: string | null;
-  tags?: string[] | null;
-  keywords?: string[] | null;
-  value?: number | null;
-  metadata?: Record<string, unknown> | null;
-};
-
-const STORAGE_KEYS = {
-  anon: "ssp_anonymous_id",
-  consent: "ssp_consent",
-  session: "ssp_session_id",
-};
-
-function generateId(prefix: string) {
-  return `${prefix}_${crypto.randomUUID()}`;
+  user_id?: string;
+  session_id?: string;
+  item_id?: string;
+  brand_id?: string;
+  page?: string;
+  keywords?: string[];
+  element?: string;
+  tags?: string[];
+  metadata?: Record<string, any>;
+  timestamp?: number;
 }
 
-function getAnonymousId(): string {
-  let id = localStorage.getItem(STORAGE_KEYS.anon);
-  if (!id) {
-    id = generateId("anon");
-    localStorage.setItem(STORAGE_KEYS.anon, id);
+export interface UserProfile {
+  user_id: string;
+  age?: number;
+  gender?: string;
+  location?: string;
+  preferences?: Record<string, any>;
+}
+
+class TrackingService {
+  private sessionId: string;
+  private userId: string | null = null;
+  private consent: boolean = false;
+  private eventQueue: TrackingEvent[] = [];
+  private isInitialized = false;
+
+  constructor() {
+    this.sessionId = this.generateSessionId();
+    this.loadUserData();
   }
-  return id;
-}
 
-function getConsent(): boolean {
-  return localStorage.getItem(STORAGE_KEYS.consent) === "granted";
-}
-
-async function setConsent(granted: boolean) {
-  localStorage.setItem(STORAGE_KEYS.consent, granted ? "granted" : "denied");
-  const anonymous_id = getAnonymousId();
-  await fetch(`${BACKEND_URL}/consent`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ anonymous_id, granted }),
-    keepalive: true,
-  });
-}
-
-async function startSession() {
-  const anonymous_id = getAnonymousId();
-  const res = await fetch(`${BACKEND_URL}/session/start`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      anonymous_id,
-      user_agent: navigator.userAgent,
-      referrer: document.referrer || null,
-      page: location.pathname,
-    }),
-  });
-  const data = await res.json();
-  localStorage.setItem(STORAGE_KEYS.session, data.session_id);
-}
-
-function getSessionId(): string | null {
-  return localStorage.getItem(STORAGE_KEYS.session);
-}
-
-async function endSession(reason: "navigation" | "timeout" | "manual" | "unload") {
-  const session_id = getSessionId();
-  if (!session_id) return;
-  await fetch(`${BACKEND_URL}/session/end`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ session_id, end_reason: reason }),
-    keepalive: true,
-  });
-  localStorage.removeItem(STORAGE_KEYS.session);
-}
-
-async function sendEvent(payload: Omit<EventPayload, "anonymous_id" | "session_id">) {
-  if (!getConsent()) return;
-  let session_id = getSessionId();
-  if (!session_id) await startSession();
-  session_id = getSessionId();
-  if (!session_id) return;
-  const body: EventPayload = {
-    anonymous_id: getAnonymousId(),
-    session_id,
-    ...payload,
-  } as EventPayload;
-  await fetch(`${BACKEND_URL}/event`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
-    keepalive: payload.event_type === "page_view" || payload.event_type === "time_spent",
-  });
-}
-
-function init() {
-  // start session lazily on first event; send a page view immediately if consent already granted
-  if (getConsent()) {
-    void sendEvent({ event_type: "page_view", page: location.pathname });
+  private generateSessionId(): string {
+    return `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
   }
-  // end session on unload
-  addEventListener("beforeunload", () => {
-    void endSession("unload");
-  });
+
+  private loadUserData(): void {
+    if (typeof window === "undefined") return;
+    
+    this.userId = localStorage.getItem("ssp_user_id");
+    this.consent = localStorage.getItem("tracking_consent") === "true";
+  }
+
+  public init(): void {
+    if (this.isInitialized) return;
+    this.isInitialized = true;
+    
+    // Track session start
+    this.sendEvent({
+      event_type: "session_start",
+      session_id: this.sessionId,
+      user_id: this.userId || undefined,
+    });
+
+    // Process queued events if consent was given
+    if (this.consent) {
+      this.processEventQueue();
+    }
+  }
+
+  public setConsent(consent: boolean): Promise<void> {
+    this.consent = consent;
+    if (typeof window !== "undefined") {
+      localStorage.setItem("tracking_consent", consent.toString());
+    }
+
+    if (consent) {
+      this.processEventQueue();
+      return this.sendEvent({
+        event_type: "consent_given",
+        session_id: this.sessionId,
+        user_id: this.userId || undefined,
+      });
+    } else {
+      return this.sendEvent({
+        event_type: "consent_declined",
+        session_id: this.sessionId,
+        user_id: this.userId || undefined,
+      });
+    }
+  }
+
+  public getConsent(): boolean {
+    return this.consent;
+  }
+
+  public setUserId(userId: string): void {
+    this.userId = userId;
+    if (typeof window !== "undefined") {
+      localStorage.setItem("ssp_user_id", userId);
+    }
+  }
+
+  public async sendEvent(event: TrackingEvent): Promise<void> {
+    if (!this.consent) {
+      this.eventQueue.push(event);
+      return;
+    }
+
+    try {
+      const payload = {
+        ...event,
+        session_id: this.sessionId,
+        user_id: this.userId || event.user_id,
+        timestamp: event.timestamp || Date.now() / 1000,
+      };
+
+      await fetch(`${TRACKER_URL}/track`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+    } catch (error) {
+      console.warn("Failed to send tracking event:", error);
+      // Queue the event for retry
+      this.eventQueue.push(event);
+    }
+  }
+
+  public async updateProfile(profile: UserProfile): Promise<void> {
+    if (!this.consent) return;
+
+    try {
+      await fetch(`${TRACKER_URL}/bio`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(profile),
+      });
+    } catch (error) {
+      console.warn("Failed to update user profile:", error);
+    }
+  }
+
+  private async processEventQueue(): Promise<void> {
+    if (this.eventQueue.length === 0) return;
+
+    const events = [...this.eventQueue];
+    this.eventQueue = [];
+
+    for (const event of events) {
+      await this.sendEvent(event);
+    }
+  }
+
+  // Utility methods for common tracking scenarios
+  public trackPageView(page: string): void {
+    this.sendEvent({
+      event_type: "page_view",
+      page,
+    });
+  }
+
+  public trackSearch(keywords: string[]): void {
+    this.sendEvent({
+      event_type: "search",
+      keywords,
+    });
+  }
+
+  public trackItemView(itemId: string, page?: string, tags?: string[]): void {
+    this.sendEvent({
+      event_type: "view_item",
+      item_id: itemId,
+      page,
+      tags,
+    });
+  }
+
+  public trackClick(element: string, itemId?: string): void {
+    this.sendEvent({
+      event_type: "click",
+      element,
+      item_id: itemId,
+    });
+  }
+
+  public trackFilterSelect(filterType: string, value: string): void {
+    this.sendEvent({
+      event_type: "filter_select",
+      metadata: {
+        filter_type: filterType,
+        filter_value: value,
+      },
+    });
+  }
+
+  public trackPurchase(itemId: string, price?: string): void {
+    this.sendEvent({
+      event_type: "purchase",
+      item_id: itemId,
+      metadata: {
+        price,
+      },
+    });
+  }
 }
 
-export const tracker = {
-  init,
-  getConsent,
-  setConsent,
-  startSession,
-  endSession,
-  sendEvent,
-};
-
+export const tracker = new TrackingService();
 
