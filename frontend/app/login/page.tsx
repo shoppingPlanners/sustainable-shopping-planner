@@ -1,3 +1,5 @@
+"use client";
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -17,13 +19,20 @@ export default function LoginPage() {
     const form = e.currentTarget as HTMLFormElement
     const email = (form.querySelector('#email') as HTMLInputElement)?.value
     const password = (form.querySelector('#password') as HTMLInputElement)?.value
+    
+    // Basic validation
+    if (!email || !password) {
+      setError('Please fill in all fields')
+      return
+    }
+    
     setLoading(true)
     setError(null)
     try {
       await login(email, password)
       router.push('/')
     } catch (err) {
-      setError('Invalid credentials')
+      setError(err instanceof Error ? err.message : 'Invalid credentials')
     } finally {
       setLoading(false)
     }

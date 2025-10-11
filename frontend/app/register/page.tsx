@@ -1,3 +1,5 @@
+"use client";
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -18,13 +20,32 @@ export default function RegisterPage() {
     const name = (form.querySelector('#name') as HTMLInputElement)?.value
     const email = (form.querySelector('#email') as HTMLInputElement)?.value
     const password = (form.querySelector('#password') as HTMLInputElement)?.value
+    const confirmPassword = (form.querySelector('#confirm-password') as HTMLInputElement)?.value
+    
+    // Validate password confirmation
+    if (password !== confirmPassword) {
+      setError('Passwords do not match')
+      return
+    }
+    
+    // Basic validation
+    if (!name || !email || !password) {
+      setError('Please fill in all fields')
+      return
+    }
+    
+    if (password.length < 6) {
+      setError('Password must be at least 6 characters')
+      return
+    }
+    
     setLoading(true)
     setError(null)
     try {
       await registerAccount({ email, password, name })
       router.push('/')
     } catch (err) {
-      setError('Registration failed')
+      setError(err instanceof Error ? err.message : 'Registration failed')
     } finally {
       setLoading(false)
     }
