@@ -58,7 +58,7 @@ app.add_middleware(
 @app.on_event("startup")
 async def startup():
     """Initialize database indexes and start background tasks"""
-    if MOTOR_AVAILABLE and db:
+    if MOTOR_AVAILABLE and db is not None:
         try:
             # Create indexes for better performance
             await db.events.create_index([("timestamp", -1)])
@@ -92,7 +92,7 @@ async def track_event(event: TrackingEvent, background_tasks: BackgroundTasks):
         if not event.timestamp:
             event.timestamp = time.time()
         
-        if MOTOR_AVAILABLE and db:
+        if MOTOR_AVAILABLE and db is not None:
             # Store event in database
             event_dict = event.dict()
             await db.events.insert_one(event_dict)
@@ -225,12 +225,12 @@ async def health_check():
             "timestamp": time.time(),
             "version": "2.0.0",
             "services": {
-                "database": "connected" if MOTOR_AVAILABLE and db else "fallback_mode",
+                "database": "connected" if MOTOR_AVAILABLE and db is not None else "fallback_mode",
                 "ai_service": "available" if behavior_analyzer and behavior_analyzer.ai_service.client else "fallback_mode"
             }
         }
         
-        if MOTOR_AVAILABLE and db:
+        if MOTOR_AVAILABLE and db is not None:
             # Test database connection
             await db.command("ping")
         else:
