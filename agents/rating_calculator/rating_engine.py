@@ -16,7 +16,7 @@ from langchain.prompts import PromptTemplate
 from textblob import TextBlob
 import spacy
 
-from shared.communication.mcp_protocol import MCPAgent, AgentRole
+from agents.shared.communication.mcp_protocol import MCPAgent, AgentRole
 from shared.database.base import get_db
 from shared.models.brand import Brand, Product, SustainabilityMetric
 from shared.models.rating import SustainabilityRating, RatingHistory
