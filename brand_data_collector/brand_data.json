@@ -1,0 +1,376 @@
+[
+    {
+        "brand_domain": "scrapeme.live",
+        "source_category_url": "https://scrapeme.live/shop/",
+        "product_count": 39,
+        "products": [
+            {
+                "product_name": "Bulbasaur",
+                "product_url": "https://scrapeme.live/shop/Bulbasaur/",
+                "price": "£63.00",
+                "category": "Pokemon",
+                "available_sizes": [],
+                "is_bestseller": false,
+                "sustainability_focus": []
+            },
+            {
+                "product_name": "Ivysaur",
+                "product_url": "https://scrapeme.live/shop/Ivysaur/",
+                "price": "£87.00",
+                "category": "Pokemon",
+                "available_sizes": [],
+                "is_bestseller": false,
+                "sustainability_focus": []
+            },
+            {
+                "product_name": "Venusaur",
+                "product_url": "https://scrapeme.live/shop/Venusaur/",
+                "price": "£105.00",
+                "category": "Pokemon",
+                "available_sizes": [],
+                "is_bestseller": false,
+                "sustainability_focus": []
+            },
+            {
+                "product_name": "Charmander",
+                "product_url": "https://scrapeme.live/shop/Charmander/",
+                "price": "£48.00",
+                "category": "Lizard",
+                "available_sizes": [],
+                "is_bestseller": false,
+                "sustainability_focus": [
+                    "eco"
+                ]
+            },
+            {
+                "product_name": "Charmeleon",
+                "product_url": "https://scrapeme.live/shop/Charmeleon/",
+                "price": "£165.00",
+                "category": "Flame",
+                "available_sizes": [],
+                "is_bestseller": false,
+                "sustainability_focus": []
+            },
+            {
+                "product_name": "Charizard",
+                "product_url": "https://scrapeme.live/shop/Charizard/",
+                "price": "£156.00",
+                "category": "Flame",
+                "available_sizes": [],
+                "is_bestseller": false,
+                "sustainability_focus": []
+            },
+            {
+                "product_name": "Squirtle",
+                "product_url": "https://scrapeme.live/shop/Squirtle/",
+                "price": "£130.00",
+                "category": "Pokemon",
+                "available_sizes": [],
+                "is_bestseller": false,
+                "sustainability_focus": []
+            },
+            {
+                "product_name": "Wartortle",
+                "product_url": "https://scrapeme.live/shop/Wartortle/",
+                "price": "£123.00",
+                "category": "Pokemon",
+                "available_sizes": [],
+                "is_bestseller": false,
+                "sustainability_focus": [
+                    "eco"
+                ]
+            },
+            {
+                "product_name": "Blastoise",
+                "product_url": "https://scrapeme.live/shop/Blastoise/",
+                "price": "£76.00",
+                "category": "Pokemon",
+                "available_sizes": [],
+                "is_bestseller": false,
+                "sustainability_focus": []
+            },
+            {
+                "product_name": "Caterpie",
+                "product_url": "https://scrapeme.live/shop/Caterpie/",
+                "price": "£73.00",
+                "category": "Pokemon",
+                "available_sizes": [],
+                "is_bestseller": false,
+                "sustainability_focus": []
+            },
+            {
+                "product_name": "Metapod",
+                "product_url": "https://scrapeme.live/shop/Metapod/",
+                "price": "£148.00",
+                "category": "Cocoon",
+                "available_sizes": [],
+                "is_bestseller": false,
+                "sustainability_focus": []
+            },
+            {
+                "product_name": "Butterfree",
+                "product_url": "https://scrapeme.live/shop/Butterfree/",
+                "price": "£162.00",
+                "category": "Butterfly",
+                "available_sizes": [],
+                "is_bestseller": false,
+                "sustainability_focus": []
+            },
+            {
+                "product_name": "Weedle",
+                "product_url": "https://scrapeme.live/shop/Weedle/",
+                "price": "£25.00",
+                "category": "Hairy Bug",
+                "available_sizes": [],
+                "is_bestseller": false,
+                "sustainability_focus": []
+            },
+            {
+                "product_name": "Kakuna",
+                "product_url": "https://scrapeme.live/shop/Kakuna/",
+                "price": "£148.00",
+                "category": "Cocoon",
+                "available_sizes": [],
+                "is_bestseller": false,
+                "sustainability_focus": [
+                    "eco"
+                ]
+            },
+            {
+                "product_name": "Beedrill",
+                "product_url": "https://scrapeme.live/shop/Beedrill/",
+                "price": "£168.00",
+                "category": "Poison Bee",
+                "available_sizes": [],
+                "is_bestseller": false,
+                "sustainability_focus": []
+            },
+            {
+                "product_name": "Pidgey",
+                "product_url": "https://scrapeme.live/shop/Pidgey/",
+                "price": "£159.00",
+                "category": "Pokemon",
+                "available_sizes": [],
+                "is_bestseller": false,
+                "sustainability_focus": []
+            },
+            {
+                "product_name": "Pidgeotto",
+                "product_url": "https://scrapeme.live/shop/Pidgeotto/",
+                "price": "£84.00",
+                "category": "Bird",
+                "available_sizes": [],
+                "is_bestseller": false,
+                "sustainability_focus": []
+            },
+            {
+                "product_name": "Pidgeot",
+                "product_url": "https://scrapeme.live/shop/Pidgeot/",
+                "price": "£185.00",
+                "category": "Bird",
+                "available_sizes": [],
+                "is_bestseller": false,
+                "sustainability_focus": []
+            },
+            {
+                "product_name": "Rattata",
+                "product_url": "https://scrapeme.live/shop/Rattata/",
+                "price": "£128.00",
+                "category": "Mouse",
+                "available_sizes": [],
+                "is_bestseller": false,
+                "sustainability_focus": []
+            },
+            {
+                "product_name": "Spearow",
+                "product_url": "https://scrapeme.live/shop/Spearow/",
+                "price": "£133.00",
+                "category": "Pokemon",
+                "available_sizes": [],
+                "is_bestseller": false,
+                "sustainability_focus": []
+            },
+            {
+                "product_name": "Fearow",
+                "product_url": "https://scrapeme.live/shop/Fearow/",
+                "price": "£95.00",
+                "category": "Beak",
+                "available_sizes": [],
+                "is_bestseller": false,
+                "sustainability_focus": [
+                    "eco"
+                ]
+            },
+            {
+                "product_name": "Ekans",
+                "product_url": "https://scrapeme.live/shop/Ekans/",
+                "price": "£55.00",
+                "category": "Pokemon",
+                "available_sizes": [],
+                "is_bestseller": false,
+                "sustainability_focus": []
+            },
+            {
+                "product_name": "Arbok",
+                "product_url": "https://scrapeme.live/shop/Arbok/",
+                "price": "£182.00",
+                "category": "Cobra",
+                "available_sizes": [],
+                "is_bestseller": false,
+                "sustainability_focus": []
+            },
+            {
+                "product_name": "Pikachu",
+                "product_url": "https://scrapeme.live/shop/Pikachu/",
+                "price": "£37.00",
+                "category": "Mouse",
+                "available_sizes": [],
+                "is_bestseller": false,
+                "sustainability_focus": [
+                    "eco"
+                ]
+            },
+            {
+                "product_name": "Sandshrew",
+                "product_url": "https://scrapeme.live/shop/Sandshrew/",
+                "price": "£82.00",
+                "category": "Mouse",
+                "available_sizes": [],
+                "is_bestseller": false,
+                "sustainability_focus": []
+            },
+            {
+                "product_name": "Nidorina",
+                "product_url": "https://scrapeme.live/shop/Nidorina/",
+                "price": "£28.00",
+                "category": "Poison Pin",
+                "available_sizes": [],
+                "is_bestseller": false,
+                "sustainability_focus": [
+                    "eco"
+                ]
+            },
+            {
+                "product_name": "Nidoqueen",
+                "product_url": "https://scrapeme.live/shop/Nidoqueen/",
+                "price": "£106.00",
+                "category": "Drill",
+                "available_sizes": [],
+                "is_bestseller": false,
+                "sustainability_focus": []
+            },
+            {
+                "product_name": "Nidorino",
+                "product_url": "https://scrapeme.live/shop/Nidorino/",
+                "price": "£179.00",
+                "category": "Poison Pin",
+                "available_sizes": [],
+                "is_bestseller": false,
+                "sustainability_focus": []
+            },
+            {
+                "product_name": "Nidoking",
+                "product_url": "https://scrapeme.live/shop/Nidoking/",
+                "price": "£31.00",
+                "category": "Drill",
+                "available_sizes": [],
+                "is_bestseller": false,
+                "sustainability_focus": []
+            },
+            {
+                "product_name": "Clefairy",
+                "product_url": "https://scrapeme.live/shop/Clefairy/",
+                "price": "£160.00",
+                "category": "Fairy",
+                "available_sizes": [],
+                "is_bestseller": false,
+                "sustainability_focus": []
+            },
+            {
+                "product_name": "Clefable",
+                "product_url": "https://scrapeme.live/shop/Clefable/",
+                "price": "£188.00",
+                "category": "Fairy",
+                "available_sizes": [],
+                "is_bestseller": false,
+                "sustainability_focus": []
+            },
+            {
+                "product_name": "Vulpix",
+                "product_url": "https://scrapeme.live/shop/Vulpix/",
+                "price": "£85.00",
+                "category": "Fox",
+                "available_sizes": [],
+                "is_bestseller": false,
+                "sustainability_focus": []
+            },
+            {
+                "product_name": "Ninetales",
+                "product_url": "https://scrapeme.live/shop/Ninetales/",
+                "price": "£52.00",
+                "category": "Fox",
+                "available_sizes": [],
+                "is_bestseller": false,
+                "sustainability_focus": []
+            },
+            {
+                "product_name": "Zubat",
+                "product_url": "https://scrapeme.live/shop/Zubat/",
+                "price": "£125.00",
+                "category": "Bat",
+                "available_sizes": [],
+                "is_bestseller": false,
+                "sustainability_focus": [
+                    "eco"
+                ]
+            },
+            {
+                "product_name": "Golbat",
+                "product_url": "https://scrapeme.live/shop/Golbat/",
+                "price": "£136.00",
+                "category": "Bat",
+                "available_sizes": [],
+                "is_bestseller": false,
+                "sustainability_focus": [
+                    "eco"
+                ]
+            },
+            {
+                "product_name": "Gloom",
+                "product_url": "https://scrapeme.live/shop/Gloom/",
+                "price": "£178.00",
+                "category": "Pokemon",
+                "available_sizes": [],
+                "is_bestseller": false,
+                "sustainability_focus": []
+            },
+            {
+                "product_name": "Vileplume",
+                "product_url": "https://scrapeme.live/shop/Vileplume/",
+                "price": "£170.00",
+                "category": "Flower",
+                "available_sizes": [],
+                "is_bestseller": false,
+                "sustainability_focus": []
+            },
+            {
+                "product_name": "Paras",
+                "product_url": "https://scrapeme.live/shop/Paras/",
+                "price": "£168.00",
+                "category": "Mushroom",
+                "available_sizes": [],
+                "is_bestseller": false,
+                "sustainability_focus": []
+            },
+            {
+                "product_name": "Parasect",
+                "product_url": "https://scrapeme.live/shop/Parasect/",
+                "price": "£27.00",
+                "category": "Mushroom",
+                "available_sizes": [],
+                "is_bestseller": false,
+                "sustainability_focus": []
+            }
+        ]
+    }
+]
