@@ -1,0 +1,175 @@
+[
+    {
+        "brand_domain": "automationexercise.com",
+        "source_category_url": "https://automationexercise.com/products",
+        "product_count": 0,
+        "products": []
+    },
+    {
+        "brand_domain": "automationpractice.pl",
+        "source_category_url": "http://automationpractice.pl/index.php?id_category=3&controller=category",
+        "product_count": 7,
+        "products": [
+            {
+                "product_name": "Faded Short Sleeve T-shirts",
+                "product_url": "http://www.automationpractice.pl/index.php?id_product=1&controller=product",
+                "price": "$17",
+                "category": "N/A",
+                "available_sizes": [
+                    "S",
+                    "M",
+                    "L"
+                ],
+                "is_bestseller": false,
+                "sustainability_focus": []
+            },
+            {
+                "product_name": "Blouse",
+                "product_url": "http://www.automationpractice.pl/index.php?id_product=2&controller=product",
+                "price": "$27",
+                "category": "N/A",
+                "available_sizes": [
+                    "S",
+                    "M",
+                    "L"
+                ],
+                "is_bestseller": false,
+                "sustainability_focus": []
+            },
+            {
+                "product_name": "Printed Dress",
+                "product_url": "http://www.automationpractice.pl/index.php?id_product=3&controller=product",
+                "price": "$26",
+                "category": "N/A",
+                "available_sizes": [
+                    "S",
+                    "M",
+                    "L"
+                ],
+                "is_bestseller": false,
+                "sustainability_focus": []
+            },
+            {
+                "product_name": "Printed Dress",
+                "product_url": "http://www.automationpractice.pl/index.php?id_product=4&controller=product",
+                "price": "$51",
+                "category": "N/A",
+                "available_sizes": [
+                    "S",
+                    "M",
+                    "L"
+                ],
+                "is_bestseller": false,
+                "sustainability_focus": []
+            },
+            {
+                "product_name": "Printed Summer Dress",
+                "product_url": "http://www.automationpractice.pl/index.php?id_product=5&controller=product",
+                "price": "$29",
+                "category": "N/A",
+                "available_sizes": [
+                    "S",
+                    "M",
+                    "L"
+                ],
+                "is_bestseller": false,
+                "sustainability_focus": []
+            },
+            {
+                "product_name": "Printed Summer Dress",
+                "product_url": "http://www.automationpractice.pl/index.php?id_product=6&controller=product",
+                "price": "$31",
+                "category": "N/A",
+                "available_sizes": [
+                    "S",
+                    "M",
+                    "L"
+                ],
+                "is_bestseller": false,
+                "sustainability_focus": []
+            },
+            {
+                "product_name": "Printed Chiffon Dress",
+                "product_url": "http://www.automationpractice.pl/index.php?id_product=7&controller=product",
+                "price": "$16",
+                "category": "N/A",
+                "available_sizes": [
+                    "S",
+                    "M",
+                    "L"
+                ],
+                "is_bestseller": false,
+                "sustainability_focus": []
+            }
+        ]
+    },
+    {
+        "brand_domain": "webscraper.io",
+        "source_category_url": "https://webscraper.io/test-sites/e-commerce/static/computers/laptops",
+        "product_count": 0,
+        "products": []
+    },
+    {
+        "brand_domain": "scrapeme.live",
+        "source_category_url": "https://scrapeme.live/shop/",
+        "product_count": 6,
+        "products": [
+            {
+                "product_name": "Bulbasaur",
+                "product_url": "https://scrapeme.live/shop/Bulbasaur/",
+                "price": "£63.00",
+                "category": "Pokemon",
+                "available_sizes": [],
+                "is_bestseller": false,
+                "sustainability_focus": []
+            },
+            {
+                "product_name": "Venusaur",
+                "product_url": "https://scrapeme.live/shop/Venusaur/",
+                "price": "£105.00",
+                "category": "Pokemon",
+                "available_sizes": [],
+                "is_bestseller": false,
+                "sustainability_focus": []
+            },
+            {
+                "product_name": "Charizard",
+                "product_url": "https://scrapeme.live/shop/Charizard/",
+                "price": "£156.00",
+                "category": "Flame",
+                "available_sizes": [],
+                "is_bestseller": false,
+                "sustainability_focus": []
+            },
+            {
+                "product_name": "Blastoise",
+                "product_url": "https://scrapeme.live/shop/Blastoise/",
+                "price": "£76.00",
+                "category": "Pokemon",
+                "available_sizes": [],
+                "is_bestseller": false,
+                "sustainability_focus": []
+            },
+            {
+                "product_name": "Weedle",
+                "product_url": "https://scrapeme.live/shop/Weedle/",
+                "price": "£25.00",
+                "category": "Hairy Bug",
+                "available_sizes": [],
+                "is_bestseller": false,
+                "sustainability_focus": []
+            },
+            {
+                "product_name": "Kakuna",
+                "product_url": "https://scrapeme.live/shop/Kakuna/",
+                "price": "£148.00",
+                "category": "Cocoon",
+                "available_sizes": [],
+                "is_bestseller": false,
+                "sustainability_focus": [
+                    "eco"
+                ]
+            }
+        ]
+    }
+]
