@@ -77,3 +77,6 @@ class AIPrompt(BaseModel):
     temperature: float = 0.7
 
 
+
+
+
