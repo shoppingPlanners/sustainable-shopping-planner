@@ -1,0 +1,5 @@
+{
+  "/trending/page": "app/trending/page.js",
+  "/suggestions/page": "app/suggestions/page.js",
+  "/page": "app/page.js"
+}

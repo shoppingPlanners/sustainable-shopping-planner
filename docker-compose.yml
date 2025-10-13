@@ -1,0 +1,133 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: sustainable-shopping-postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-sustainable_shopping}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # MongoDB Database
+  mongodb:
+    image: mongo:7
+    container_name: sustainable-shopping-mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USERNAME:-admin}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD:-admin}
+      MONGO_INITDB_DATABASE: ${MONGO_DB:-sustainable_shopping}
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: sustainable-shopping-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Agent 1: Brand Data Collector
+  brand-collector:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: brand-collector
+    environment:
+      - BRAND_COLLECTOR_PORT=5001
+      - RATING_CALCULATOR_URL=http://rating-calculator:5002
+    ports:
+      - "5001:5001"
+    command: python agents/agent1_brand_collector.py
+    depends_on:
+      - redis
+    restart: unless-stopped
+
+  # Agent 2: Rating Calculator
+  rating-calculator:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: rating-calculator
+    environment:
+      - RATING_CALCULATOR_PORT=5002
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    ports:
+      - "5002:5002"
+    command: python agents/agent2_rating_calculator.py
+    depends_on:
+      - redis
+    restart: unless-stopped
+
+  # Agent 3: User Behavior Tracker
+  user-behavior:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: user-behavior
+    environment:
+      - USER_BEHAVIOR_PORT=5003
+      - MONGO_URI=mongodb://admin:admin@mongodb:27017
+      - MONGO_DB_NAME=sustainable_shopping
+    ports:
+      - "5003:5003"
+    command: python agents/agent3_user_behavior.py
+    depends_on:
+      - mongodb
+      - redis
+    restart: unless-stopped
+
+  # Agent 4: Suggestion Agent
+  suggestion-agent:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: suggestion-agent
+    environment:
+      - SUGGESTION_AGENT_PORT=5004
+      - BRAND_COLLECTOR_URL=http://brand-collector:5001
+      - RATING_CALCULATOR_URL=http://rating-calculator:5002
+      - USER_BEHAVIOR_URL=http://user-behavior:5003
+    ports:
+      - "5004:5004"
+    command: python agents/agent4_suggestion.py
+    depends_on:
+      - brand-collector
+      - rating-calculator
+      - user-behavior
+      - redis
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  mongodb_data:
+  redis_data:
+
+networks:
+  default:
+    name: sustainable-shopping-network
+
