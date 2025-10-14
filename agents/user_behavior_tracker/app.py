@@ -6,6 +6,9 @@ from fastapi import FastAPI, HTTPException, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 
+# Load environment variables first
+load_dotenv()
+
 # Try to import motor, fallback to basic functionality if not available
 try:
     import motor.motor_asyncio

@@ -25,7 +25,7 @@ if frontend_process:
     processes.append(frontend_process)
 
 # Start backend
-backend_process = start_process(["python", "main.py"], "backend/src", "Backend")
+backend_process = start_process(["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"], "backend/src", "Backend")
 if backend_process:
     processes.append(backend_process)
 
