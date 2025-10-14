@@ -1,8 +1,0 @@
-# Minimal requirements for Sustainable Shopping Planner Backend
-# Install these first if you encounter issues
-
-fastapi
-uvicorn
-pydantic
-motor
-python-dotenv
