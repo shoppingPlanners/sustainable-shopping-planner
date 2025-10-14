@@ -5,7 +5,7 @@ class Settings:
     def __init__(self):
         # Database
         self.mongo_uri = os.getenv("MONGO_URI", "mongodb://localhost:27017")
-        self.database_name = os.getenv("DATABASE_NAME", "sustainable_shopping")
+        self.database_name = os.getenv("DATABASE_NAME", "sustainable-shopping-planner")
         
         # AI Configuration
         self.openai_api_key = os.getenv("OPENAI_API_KEY")

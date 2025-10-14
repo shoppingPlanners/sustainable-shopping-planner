@@ -203,6 +203,103 @@ class TrackingService {
       },
     });
   }
+
+  public trackAddToCart(itemId: string, price?: string, quantity?: number): void {
+    this.sendEvent({
+      event_type: "add_to_cart",
+      item_id: itemId,
+      metadata: {
+        price,
+        quantity: quantity || 1,
+      },
+    });
+  }
+
+  public trackRemoveFromCart(itemId: string, price?: string, quantity?: number): void {
+    this.sendEvent({
+      event_type: "remove_from_cart",
+      item_id: itemId,
+      metadata: {
+        price,
+        quantity: quantity || 1,
+      },
+    });
+  }
+
+  public trackCartView(cartItems: Array<{itemId: string, quantity: number, price?: string}>): void {
+    this.sendEvent({
+      event_type: "cart_view",
+      metadata: {
+        cart_items: cartItems,
+        item_count: cartItems.length,
+        total_items: cartItems.reduce((sum, item) => sum + item.quantity, 0),
+      },
+    });
+  }
+
+  public trackWishlistAdd(itemId: string): void {
+    this.sendEvent({
+      event_type: "wishlist_add",
+      item_id: itemId,
+    });
+  }
+
+  public trackWishlistRemove(itemId: string): void {
+    this.sendEvent({
+      event_type: "wishlist_remove",
+      item_id: itemId,
+    });
+  }
+
+  public trackProductComparison(itemIds: string[]): void {
+    this.sendEvent({
+      event_type: "product_comparison",
+      metadata: {
+        compared_items: itemIds,
+        comparison_count: itemIds.length,
+      },
+    });
+  }
+
+  public trackCategoryView(category: string, page?: string): void {
+    this.sendEvent({
+      event_type: "category_view",
+      metadata: {
+        category,
+        page,
+      },
+    });
+  }
+
+  public trackBrandView(brand: string, page?: string): void {
+    this.sendEvent({
+      event_type: "brand_view",
+      metadata: {
+        brand,
+        page,
+      },
+    });
+  }
+
+  public trackSortChange(sortBy: string, sortOrder: string): void {
+    this.sendEvent({
+      event_type: "sort_change",
+      metadata: {
+        sort_by: sortBy,
+        sort_order: sortOrder,
+      },
+    });
+  }
+
+  public trackPagination(page: number, pageSize: number): void {
+    this.sendEvent({
+      event_type: "pagination",
+      metadata: {
+        page_number: page,
+        page_size: pageSize,
+      },
+    });
+  }
 }
 
 export const tracker = new TrackingService();

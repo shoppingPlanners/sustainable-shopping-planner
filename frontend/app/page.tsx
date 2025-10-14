@@ -9,7 +9,8 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Leaf, Recycle, Heart, Star, ExternalLink, Loader2 } from "lucide-react"
 import { Navigation } from "@/components/navigation"
-import { tracker } from "@/lib/tracking"
+import { ItemCard } from "@/components/item-card"
+import { useTracking, useScrollTracking, useTimeTracking } from "@/hooks/use-tracking"
 import { useState } from "react"
 
 interface Recommendation {
@@ -40,12 +41,15 @@ export default function HomePage() {
   const [error, setError] = useState<string | null>(null);
   const [showRecommendations, setShowRecommendations] = useState(false);
 
-  if (typeof window !== 'undefined') {
-    void tracker.sendEvent({ event_type: 'page_view', page: '/' })
-  }
+  const { trackFormInteraction, trackClick } = useTracking();
+  
+  // Track scroll and time on page
+  useScrollTracking("/");
+  useTimeTracking("/");
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
+    trackFormInteraction("preferences_form", "field_change", { field, value });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -54,7 +58,7 @@ export default function HomePage() {
     setError(null);
 
     try {
-      // Save preferences
+      // First, save preferences to the database
       const saveResponse = await fetch('http://localhost:8000/api/preferences/save', {
         method: 'POST',
         headers: {
@@ -67,10 +71,15 @@ export default function HomePage() {
         throw new Error('Failed to save preferences');
       }
 
-      // Get recommendations
+      const saveResult = await saveResponse.json();
+      console.log('Preferences saved:', saveResult);
+
+      // Then get personalized recommendations
       const params = new URLSearchParams();
       Object.entries(formData).forEach(([key, value]) => {
-        if (value) params.append(key, value);
+        if (value && value !== "all") {
+          params.append(key, value);
+        }
       });
 
       const recommendationsResponse = await fetch(`http://localhost:8000/api/preferences/recommendations?${params.toString()}`);
@@ -80,22 +89,104 @@ export default function HomePage() {
       }
 
       const data = await recommendationsResponse.json();
+      
+      // The backend already returns recommendations in the correct format
       setRecommendations(data);
       setShowRecommendations(true);
       
       // Track the form submission
-      void tracker.sendEvent({ 
-        event_type: 'form_submit', 
-        page: '/'
+      trackFormInteraction("preferences_form", "submit", { 
+        preferences: formData,
+        recommendation_count: data.length 
       });
 
     } catch (err) {
       console.error('Error:', err);
       setError('Failed to get recommendations. Please try again.');
+      trackFormInteraction("preferences_form", "error", { error: err instanceof Error ? err.message : 'Unknown error' });
     } finally {
       setLoading(false);
     }
   };
+
+  // Helper function to generate match reasons
+  const generateMatchReason = (preferences: any, item: any) => {
+    const reasons = [];
+    
+    // Match by product name keywords
+    if (preferences.category && preferences.category !== "all") {
+      const productName = item.name.toLowerCase();
+      if (preferences.category === "dresses" && productName.includes("dress")) {
+        reasons.push("Perfect dress match");
+      } else if (preferences.category === "tops" && (productName.includes("blouse") || productName.includes("top"))) {
+        reasons.push("Great top option");
+      } else if (preferences.category === "t-shirts" && productName.includes("t-shirt")) {
+        reasons.push("Classic t-shirt style");
+      } else if (preferences.category === "summer" && productName.includes("summer")) {
+        reasons.push("Summer collection item");
+      }
+    }
+    
+    if (preferences.budget) {
+      const price = parseFloat(item.price.replace(/[^0-9.]/g, ''));
+      if (preferences.budget === 'under-20' && price < 20) {
+        reasons.push('Great value under $20');
+      } else if (preferences.budget === '20-30' && price >= 20 && price <= 30) {
+        reasons.push('Perfect mid-range price');
+      } else if (preferences.budget === '30-50' && price >= 30 && price <= 50) {
+        reasons.push('Premium quality range');
+      } else if (preferences.budget === '50-plus' && price > 50) {
+        reasons.push('High-end option');
+      }
+    }
+    
+    if (preferences.sustainability_priorities && item.sustainabilityScore > 0) {
+      reasons.push('Sustainable materials');
+    }
+    
+    // Match by style preferences
+    if (preferences.style) {
+      const productName = item.name.toLowerCase();
+      if (preferences.style === "printed" && productName.includes("printed")) {
+        reasons.push("Beautiful printed design");
+      } else if (preferences.style === "summer" && productName.includes("summer")) {
+        reasons.push("Perfect summer style");
+      } else if (preferences.style === "chiffon" && productName.includes("chiffon")) {
+        reasons.push("Elegant chiffon material");
+      } else if (preferences.style === "basic" && productName.includes("faded")) {
+        reasons.push("Classic basic style");
+      }
+    }
+    
+    // Check available sizes
+    if (preferences.size && item.features.includes(preferences.size.toUpperCase())) {
+      reasons.push(`Available in size ${preferences.size.toUpperCase()}`);
+    }
+    
+    if (reasons.length === 0) {
+      reasons.push('Great sustainable option');
+    }
+    
+    return reasons.join(', ');
+  };
+
+  const handleAddToCart = (itemId: string, price: string) => {
+    trackFormInteraction("cart", "add", { itemId, price });
+    // Here you would typically add to cart state/context
+    console.log(`Added item ${itemId} to cart for ${price}`);
+  };
+
+  const handleAddToWishlist = (itemId: string) => {
+    trackFormInteraction("wishlist", "add", { itemId });
+    // Here you would typically add to wishlist state/context
+    console.log(`Added item ${itemId} to wishlist`);
+  };
+
+  const handleAdjustPreferences = () => {
+    setShowRecommendations(false);
+    trackClick("adjust_preferences_button");
+  };
+
   return (
     <div className="min-h-screen bg-background">
       {/* Navigation */}
@@ -140,11 +231,11 @@ export default function HomePage() {
                         <SelectValue placeholder="Select type" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="tops">Tops</SelectItem>
-                        <SelectItem value="bottoms">Bottoms</SelectItem>
+                        <SelectItem value="all">All Items</SelectItem>
                         <SelectItem value="dresses">Dresses</SelectItem>
-                        <SelectItem value="outerwear">Outerwear</SelectItem>
-                        <SelectItem value="activewear">Activewear</SelectItem>
+                        <SelectItem value="tops">Tops & Blouses</SelectItem>
+                        <SelectItem value="t-shirts">T-shirts</SelectItem>
+                        <SelectItem value="summer">Summer Collection</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -158,10 +249,10 @@ export default function HomePage() {
                         <SelectValue placeholder="Price range" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="under-50">Under $50</SelectItem>
-                        <SelectItem value="50-100">$50 - $100</SelectItem>
-                        <SelectItem value="100-200">$100 - $200</SelectItem>
-                        <SelectItem value="200-plus">$200+</SelectItem>
+                        <SelectItem value="under-20">Under $20</SelectItem>
+                        <SelectItem value="20-30">$20 - $30</SelectItem>
+                        <SelectItem value="30-50">$30 - $50</SelectItem>
+                        <SelectItem value="50-plus">$50+</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -177,10 +268,10 @@ export default function HomePage() {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="casual">Casual</SelectItem>
-                      <SelectItem value="professional">Professional</SelectItem>
-                      <SelectItem value="trendy">Contemporary</SelectItem>
-                      <SelectItem value="minimalist">Minimalist</SelectItem>
-                      <SelectItem value="bohemian">Bohemian</SelectItem>
+                      <SelectItem value="printed">Printed & Patterned</SelectItem>
+                      <SelectItem value="summer">Summer Style</SelectItem>
+                      <SelectItem value="basic">Basic & Simple</SelectItem>
+                      <SelectItem value="chiffon">Elegant Chiffon</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -191,7 +282,7 @@ export default function HomePage() {
                   </Label>
                   <Textarea
                     id="sustainability"
-                    placeholder="Organic materials, fair trade, carbon neutral..."
+                    placeholder="Organic cotton, recycled materials, fair trade, eco-friendly dyes..."
                     className="min-h-[80px] resize-none"
                     value={formData.sustainability_priorities}
                     onChange={(e) => handleInputChange("sustainability_priorities", e.target.value)}
@@ -204,7 +295,7 @@ export default function HomePage() {
                   </Label>
                   <Input 
                     id="size" 
-                    placeholder="e.g., M, L, 32" 
+                    placeholder="e.g., S, M, L" 
                     value={formData.size}
                     onChange={(e) => handleInputChange("size", e.target.value)}
                   />
@@ -252,78 +343,20 @@ export default function HomePage() {
             {recommendations.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {recommendations.map((item) => (
-                  <Card key={item.id} className="group hover:shadow-xl transition-all duration-300 border-border overflow-hidden">
-                    <div className="aspect-[4/5] overflow-hidden">
-                      <img
-                        src={item.image || "/placeholder.svg"}
-                        alt={item.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
-                    </div>
-
-                    <CardHeader className="pb-3">
-                      <div className="flex items-start justify-between gap-2">
-                        <div>
-                          <CardTitle className="text-lg text-foreground line-clamp-2">{item.name}</CardTitle>
-                          <CardDescription className="text-muted-foreground font-medium">{item.brand}</CardDescription>
-                        </div>
-                        <div className="text-right">
-                          <div className="text-lg font-bold text-foreground">{item.price}</div>
-                        </div>
-                      </div>
-                    </CardHeader>
-
-                    <CardContent className="pt-0 space-y-4">
-                      {/* Match Score */}
-                      <div className="flex items-center justify-between">
-                        <Badge variant="secondary" className="bg-primary/10 text-primary">
-                          {item.match_score}% Match
-                        </Badge>
-                        <div className="text-xs text-muted-foreground text-right max-w-[200px]">
-                          {item.reason}
-                        </div>
-                      </div>
-
-                      {/* Ratings */}
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-1">
-                          <Star className="h-4 w-4 fill-accent text-accent" />
-                          <span className="text-sm font-medium text-foreground">{item.rating}</span>
-                        </div>
-                        <div className="flex items-center gap-1">
-                          <Leaf className="h-4 w-4 text-primary" />
-                          <span className="text-sm font-medium text-primary">{item.sustainabilityScore}%</span>
-                        </div>
-                      </div>
-
-                      {/* Features */}
-                      <div className="flex flex-wrap gap-1">
-                        {item.features.slice(0, 3).map((feature, index) => (
-                          <Badge
-                            key={index}
-                            variant="secondary"
-                            className="text-xs bg-secondary/50 text-secondary-foreground"
-                          >
-                            {feature}
-                          </Badge>
-                        ))}
-                      </div>
-
-                      {/* Buy Button */}
-                      <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground group/btn" asChild>
-                        <a href={item.buyUrl} target="_blank" rel="noopener noreferrer">
-                          Shop Now
-                          <ExternalLink className="h-4 w-4 ml-2 group-hover/btn:translate-x-0.5 transition-transform" />
-                        </a>
-                      </Button>
-                    </CardContent>
-                  </Card>
+                  <ItemCard
+                    key={item.id}
+                    item={item}
+                    page="/"
+                    showMatchScore={true}
+                    onAddToCart={handleAddToCart}
+                    onAddToWishlist={handleAddToWishlist}
+                  />
                 ))}
               </div>
             ) : (
               <div className="text-center py-12">
                 <p className="text-muted-foreground mb-4">No recommendations found. Try adjusting your preferences.</p>
-                <Button onClick={() => setShowRecommendations(false)} variant="outline">
+                <Button onClick={handleAdjustPreferences} variant="outline">
                   Adjust Preferences
                 </Button>
               </div>

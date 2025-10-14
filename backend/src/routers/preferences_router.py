@@ -73,9 +73,50 @@ async def get_recommendations(
         if category and category != "all":
             filter_conditions["category"] = category
         
-        # Get all items matching basic filters
-        items_cursor = mongo_db.item.find(filter_conditions).limit(50)  # Get more items for scoring
-        items = list(items_cursor)
+        # Get all items by flattening products from brands collection
+        brands_cursor = mongo_db.brands.find({})
+        items = []
+        
+        for brand_doc in brands_cursor:
+            brand_id_str = str(brand_doc.get("_id"))
+            brand_domain = brand_doc.get("brand_domain", "")
+            products = brand_doc.get("products", []) or []
+            
+            for index, product in enumerate(products):
+                product_category = product.get("category", "N/A") or "N/A"
+                product_name = product.get("product_name", "").lower()
+                
+                # Apply category filter if provided - match by product name keywords
+                if category and category != "all":
+                    category_match = False
+                    if category.lower() == "dresses" and "dress" in product_name:
+                        category_match = True
+                    elif category.lower() == "tops" and ("blouse" in product_name or "top" in product_name):
+                        category_match = True
+                    elif category.lower() == "t-shirts" and "t-shirt" in product_name:
+                        category_match = True
+                    elif category.lower() == "summer" and "summer" in product_name:
+                        category_match = True
+                    elif category.lower() == "all":
+                        category_match = True
+                    
+                    if not category_match:
+                        continue
+                
+                item = {
+                    "_id": f"{brand_id_str}:{index}",
+                    "name": product.get("product_name", ""),
+                    "brand": brand_domain,
+                    "rating": 0.0,  # No rating provided in brand documents
+                    "sustainabilityScore": len(product.get("sustainability_focus", []) or []),
+                    "price": product.get("price", ""),
+                    "image": product.get("image", ""),
+                    "buyUrl": product.get("product_url", ""),
+                    "features": product.get("available_sizes", []) or [],
+                    "category": product_category,
+                    "sustainability_focus": product.get("sustainability_focus", []) or [],
+                }
+                items.append(item)
         
         if not items:
             return []
@@ -93,19 +134,19 @@ async def get_recommendations(
             
             # Budget match
             if budget:
-                price_str = item.get("price", "$0").replace("$", "").replace(",", "")
+                price_str = item.get("price", "$0").replace("$", "").replace("£", "").replace(",", "")
                 try:
                     price = float(price_str)
-                    if budget == "under-50" and price < 50:
+                    if budget == "under-20" and price < 20:
                         score += 25
                         reasons.append("Fits your budget")
-                    elif budget == "50-100" and 50 <= price <= 100:
+                    elif budget == "20-30" and 20 <= price <= 30:
                         score += 25
                         reasons.append("Fits your budget")
-                    elif budget == "100-200" and 100 < price <= 200:
+                    elif budget == "30-50" and 30 < price <= 50:
                         score += 25
                         reasons.append("Fits your budget")
-                    elif budget == "200-plus" and price > 200:
+                    elif budget == "50-plus" and price > 50:
                         score += 25
                         reasons.append("Fits your budget")
                 except ValueError:
@@ -114,11 +155,19 @@ async def get_recommendations(
             # Sustainability priorities match
             if sustainability_priorities:
                 priorities_lower = sustainability_priorities.lower()
+                # Check both features (available_sizes) and sustainability_focus
                 item_features = [f.lower() for f in item.get("features", [])]
+                sustainability_focus = item.get("sustainability_focus", [])
                 
-                if any(priority in item_features for priority in ["organic", "recycled", "fair trade", "carbon neutral"]):
-                    score += 20
-                    reasons.append("Matches your sustainability priorities")
+                # Check if any sustainability keywords match
+                sustainability_keywords = ["organic", "recycled", "fair trade", "carbon neutral", "eco", "sustainable"]
+                if any(keyword in priorities_lower for keyword in sustainability_keywords):
+                    if sustainability_focus:  # If product has sustainability focus
+                        score += 20
+                        reasons.append("Matches your sustainability priorities")
+                    elif item.get("sustainabilityScore", 0) > 0:  # If product has sustainability score
+                        score += 15
+                        reasons.append("Sustainable product")
             
             # High sustainability score bonus
             sustainability_score = item.get("sustainabilityScore", 0)

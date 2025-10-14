@@ -32,49 +32,87 @@ async def get_items(
     offset: int = 0
 ):
     """
-    Get items from the database with optional filtering by category.
+    Get items by flattening products within brands, with optional category filter.
     """
     try:
-        # Build filter conditions
-        filter_conditions = {}
-        if category and category != "all":
-            filter_conditions["category"] = category
-        
-        # Fetch items from MongoDB using direct connection
-        items_cursor = mongo_db.item.find(filter_conditions).skip(offset).limit(limit)
-        items = list(items_cursor)
-        
-        # Convert to response format
-        result = []
-        for item in items:
-            # Convert ObjectId to string for JSON serialization
-            item_id = str(item["_id"])
-            del item["_id"]
-            item["id"] = item_id
-            
-            result.append(ItemResponse(**item))
-        
-        return result
+        # Fetch brands from MongoDB (filtering occurs after flattening products)
+        brands_cursor = mongo_db.brands.find({})
+
+        flattened: List[ItemResponse] = []
+        for brand_doc in brands_cursor:
+            brand_id_str = str(brand_doc.get("_id"))
+            brand_domain = brand_doc.get("brand_domain", "")
+            products = brand_doc.get("products", []) or []
+
+            for index, product in enumerate(products):
+                product_category = product.get("category", "N/A") or "N/A"
+
+                # Apply category filter if provided
+                if category and category != "all":
+                    if (product_category or "").lower() != category.lower():
+                        continue
+
+                item_response = ItemResponse(
+                    id=f"{brand_id_str}:{index}",
+                    name=product.get("product_name", ""),
+                    brand=brand_domain,
+                    rating=0.0,  # No rating provided in brand documents
+                    sustainabilityScore=len(product.get("sustainability_focus", []) or []),
+                    price=product.get("price", ""),
+                    image=product.get("image", ""),  # image not present in provided schema
+                    buyUrl=product.get("product_url", ""),
+                    features=product.get("available_sizes", []) or [],
+                    category=product_category,
+                )
+                flattened.append(item_response)
+
+        # Apply pagination after flattening
+        paginated = flattened[offset: offset + limit]
+        return paginated
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to fetch items: {str(e)}")
 
 @router.get("/{item_id}", response_model=ItemResponse)
 async def get_item(item_id: str):
     """
-    Get a specific item by ID.
+    Get a specific product using a composite id: "brandObjectId:index".
     """
     try:
+        # Expect composite id like "<brandId>:<productIndex>"
+        if ":" not in item_id:
+            raise HTTPException(status_code=400, detail="Invalid item id format. Expected 'brandId:index'.")
+
+        brand_id_str, index_str = item_id.split(":", 1)
+        try:
+            index = int(index_str)
+        except ValueError:
+            raise HTTPException(status_code=400, detail="Invalid product index in item id.")
+
         from bson import ObjectId
-        item = mongo_db.item.find_one({"_id": ObjectId(item_id)})
-        if not item:
-            raise HTTPException(status_code=404, detail="Item not found")
-        
-        # Convert ObjectId to string for JSON serialization
-        item_id_str = str(item["_id"])
-        del item["_id"]
-        item["id"] = item_id_str
-        
-        return ItemResponse(**item)
+        brand_doc = mongo_db.brands.find_one({"_id": ObjectId(brand_id_str)})
+        if not brand_doc:
+            raise HTTPException(status_code=404, detail="Brand not found")
+
+        products = brand_doc.get("products", []) or []
+        if index < 0 or index >= len(products):
+            raise HTTPException(status_code=404, detail="Product not found for given index")
+
+        product = products[index]
+        product_category = product.get("category", "N/A") or "N/A"
+
+        item_response = ItemResponse(
+            id=f"{brand_id_str}:{index}",
+            name=product.get("product_name", ""),
+            brand=brand_doc.get("brand_domain", ""),
+            rating=0.0,
+            sustainabilityScore=len(product.get("sustainability_focus", []) or []),
+            price=product.get("price", ""),
+            image=product.get("image", ""),
+            buyUrl=product.get("product_url", ""),
+            features=product.get("available_sizes", []) or [],
+            category=product_category,
+        )
+        return item_response
     except HTTPException:
         raise
     except Exception as e:

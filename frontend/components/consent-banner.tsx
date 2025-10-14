@@ -1,51 +1,102 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Shield, Cookie, Eye, BarChart3 } from "lucide-react";
 import { tracker } from "@/lib/tracking";
 
 export function ConsentBanner() {
-  const [visible, setVisible] = useState(false);
+  const [showBanner, setShowBanner] = useState(false);
+  const [consentGiven, setConsentGiven] = useState(false);
 
   useEffect(() => {
-    setVisible(!tracker.getConsent());
+    // Check if consent has been given
+    const hasConsent = tracker.getConsent();
+    setConsentGiven(hasConsent);
+    
+    // Show banner if no consent decision has been made
+    if (!hasConsent && typeof window !== "undefined") {
+      const consentDecision = localStorage.getItem("tracking_consent");
+      if (!consentDecision) {
+        setShowBanner(true);
+      }
+    }
   }, []);
 
-  const accept = async () => {
+  const handleAccept = async () => {
     await tracker.setConsent(true);
-    setVisible(false);
-    // record initial page view
-    await tracker.sendEvent({ event_type: "page_view", page: location.pathname });
+    setConsentGiven(true);
+    setShowBanner(false);
   };
 
-  const decline = async () => {
+  const handleDecline = async () => {
     await tracker.setConsent(false);
-    setVisible(false);
+    setConsentGiven(false);
+    setShowBanner(false);
   };
 
-  if (!visible) return null;
+  const handleManagePreferences = () => {
+    // Open a modal or navigate to preferences page
+    console.log("Opening privacy preferences...");
+  };
+
+  if (!showBanner) {
+    return null;
+  }
+
   return (
-    <div className="fixed inset-x-0 bottom-0 z-50 p-4">
-      <Card className="mx-auto max-w-3xl p-4 border-border bg-card">
-        <div className="flex flex-col sm:flex-row gap-3 items-center justify-between">
-          <p className="text-sm text-muted-foreground text-center sm:text-left">
-            We use anonymized analytics to improve sustainable shopping features. Do you consent to usage tracking?
-          </p>
-          <div className="flex gap-2">
-            <Button variant="outline" className="border-border" onClick={decline}>
-              Decline
-            </Button>
-            <Button className="bg-primary text-primary-foreground" onClick={accept}>
-              Accept
-            </Button>
-          </div>
-        </div>
-      </Card>
+    <div className="fixed bottom-0 left-0 right-0 z-50 p-4 bg-background/95 backdrop-blur-sm border-t border-border">
+      <div className="max-w-4xl mx-auto">
+        <Card className="border-border shadow-lg">
+          <CardHeader className="pb-4">
+            <div className="flex items-center gap-2 mb-2">
+              <Shield className="h-5 w-5 text-primary" />
+              <CardTitle className="text-lg">Privacy & Analytics</CardTitle>
+            </div>
+            <CardDescription>
+              We use analytics to improve your shopping experience and provide personalized recommendations.
+            </CardDescription>
+          </CardHeader>
+          
+          <CardContent className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="flex items-center gap-2 text-sm">
+                <Eye className="h-4 w-4 text-muted-foreground" />
+                <span>Page views & navigation</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm">
+                <BarChart3 className="h-4 w-4 text-muted-foreground" />
+                <span>Product interactions</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm">
+                <Cookie className="h-4 w-4 text-muted-foreground" />
+                <span>Preference tracking</span>
+              </div>
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Button onClick={handleAccept} className="flex-1">
+                Accept All
+              </Button>
+              <Button onClick={handleDecline} variant="outline" className="flex-1">
+                Decline
+              </Button>
+              <Button onClick={handleManagePreferences} variant="ghost" size="sm">
+                Manage Preferences
+              </Button>
+            </div>
+
+            <div className="text-xs text-muted-foreground">
+              <p>
+                By accepting, you agree to our use of cookies and analytics. 
+                You can change your preferences at any time in your account settings.
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }
-
-
-
-
