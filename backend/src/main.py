@@ -25,3 +25,8 @@ async def shutdown():
 app.include_router(auth_router.router)
 app.include_router(items_router.router)
 app.include_router(preferences_router.router)
+
+# Simple health check endpoint for smoke testing
+@app.get("/health")
+async def health():
+    return {"status": "ok"}
