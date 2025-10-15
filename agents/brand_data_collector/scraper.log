@@ -1,0 +1,81 @@
+2025-10-15 15:21:41,447 - INFO - Brand Data Collector Agent: Initializing...
+2025-10-15 15:21:41,450 - INFO - Connected to MongoDB
+2025-10-15 15:21:41,450 - INFO - No specific config for . Using universal Shopify selectors.
+2025-10-15 15:21:41,468 - INFO - ✅ Rating Calculator Agent available at http://localhost:5002
+2025-10-15 15:21:41,468 - INFO - Scraping category page 1: # Test with just 3 reliable Shopify stores
+2025-10-15 15:21:43,855 - WARNING -   ⚠️  Regular fetch failed: Invalid URL '# Test with just 3 reliable Shopify stores': No scheme supplied. Perhaps you meant https://# Test with just 3 reliable Shopify stores?
+2025-10-15 15:21:43,855 - INFO -   ⚡ Trying Selenium for # Test with just 3 reliable Shopify stores
+2025-10-15 15:21:43,855 - INFO - 🌐 Initializing Selenium WebDriver...
+2025-10-15 15:21:43,855 - INFO - ====== WebDriver manager ======
+2025-10-15 15:21:44,224 - INFO - Get LATEST chromedriver version for google-chrome
+2025-10-15 15:21:44,798 - INFO - Get LATEST chromedriver version for google-chrome
+2025-10-15 15:21:45,364 - INFO - Driver [/Users/yasiruvithana/.wdm/drivers/chromedriver/mac64/141.0.7390.78/chromedriver-mac-arm64/chromedriver] found in cache
+2025-10-15 15:21:47,067 - INFO - ✅ Selenium WebDriver initialized successfully
+2025-10-15 15:21:47,068 - INFO -   🌐 Loading with Selenium: # Test with just 3 reliable Shopify stores
+2025-10-15 15:21:47,071 - ERROR -   ❌ Selenium fetch failed for # Test with just 3 reliable Shopify stores: Message: invalid argument
+  (Session info: chrome=141.0.7390.78)
+Stacktrace:
+0   chromedriver                        0x0000000100c6b5f0 cxxbridge1$str$ptr + 2894960
+1   chromedriver                        0x0000000100c6352c cxxbridge1$str$ptr + 2861996
+2   chromedriver                        0x0000000100789458 _RNvCs47EqcsrPRmA_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 73920
+3   chromedriver                        0x0000000100773614 cxxbridge1$string$len + 1624
+4   chromedriver                        0x0000000100771af4 chromedriver + 203508
+5   chromedriver                        0x0000000100772574 chromedriver + 206196
+6   chromedriver                        0x000000010078c660 _RNvCs47EqcsrPRmA_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 86728
+7   chromedriver                        0x0000000100812f10 _RNvCs47EqcsrPRmA_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 637816
+8   chromedriver                        0x0000000100812458 _RNvCs47EqcsrPRmA_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 635072
+9   chromedriver                        0x00000001007c5178 _RNvCs47EqcsrPRmA_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 318944
+10  chromedriver                        0x0000000100c2f33c cxxbridge1$str$ptr + 2648508
+11  chromedriver                        0x0000000100c32918 cxxbridge1$str$ptr + 2662296
+12  chromedriver                        0x0000000100c0fdbc cxxbridge1$str$ptr + 2520124
+13  chromedriver                        0x0000000100c33200 cxxbridge1$str$ptr + 2664576
+14  chromedriver                        0x0000000100c0152c cxxbridge1$str$ptr + 2460588
+15  chromedriver                        0x0000000100c52bec cxxbridge1$str$ptr + 2794092
+16  chromedriver                        0x0000000100c52d70 cxxbridge1$str$ptr + 2794480
+17  chromedriver                        0x0000000100c63178 cxxbridge1$str$ptr + 2861048
+18  libsystem_pthread.dylib             0x00000001828aaf94 _pthread_start + 136
+19  libsystem_pthread.dylib             0x00000001828a5d34 thread_start + 8
+
+2025-10-15 15:21:47,071 - WARNING -   ⚠️  Failed to fetch page 1
+2025-10-15 15:21:47,156 - INFO - 🎉 Scraped 0 products from 
+2025-10-15 15:21:47,158 - INFO - Upserted brand  into MongoDB
+2025-10-15 15:21:47,166 - INFO - ✅ Rating Calculator Agent available at http://localhost:5002
+2025-10-15 15:21:47,166 - INFO - Scraping category page 1: https://kotn.com/collections/womens
+2025-10-15 15:21:50,484 - INFO -   📦 Found 0 product links on page 1
+2025-10-15 15:21:50,484 - INFO -   ℹ️  No more pages found
+2025-10-15 15:21:50,484 - INFO - 🎉 Scraped 0 products from kotn.com
+2025-10-15 15:21:50,486 - INFO - Upserted brand kotn.com into MongoDB
+2025-10-15 15:21:50,494 - INFO - ✅ Rating Calculator Agent available at http://localhost:5002
+2025-10-15 15:21:50,496 - INFO - Scraping category page 1: https://www.thoughtclothing.com/collections/womens
+2025-10-15 15:21:53,074 - INFO -   ⚡ Page appears JavaScript-rendered, trying Selenium...
+2025-10-15 15:21:53,074 - INFO - 🌐 Initializing Selenium WebDriver...
+2025-10-15 15:21:53,074 - INFO - ====== WebDriver manager ======
+2025-10-15 15:21:53,267 - INFO - Get LATEST chromedriver version for google-chrome
+2025-10-15 15:21:53,855 - INFO - Get LATEST chromedriver version for google-chrome
+2025-10-15 15:21:54,439 - INFO - Driver [/Users/yasiruvithana/.wdm/drivers/chromedriver/mac64/141.0.7390.78/chromedriver-mac-arm64/chromedriver] found in cache
+2025-10-15 15:21:55,667 - INFO - ✅ Selenium WebDriver initialized successfully
+2025-10-15 15:21:55,667 - INFO -   🌐 Loading with Selenium: https://www.thoughtclothing.com/collections/womens
+2025-10-15 15:22:57,904 - INFO -   ✅ Page loaded (found: body)
+2025-10-15 15:23:03,924 - INFO -   📄 Page content: 357 characters
+2025-10-15 15:23:03,925 - INFO -   📦 Found 0 product links on page 1
+2025-10-15 15:23:03,925 - INFO -   ℹ️  No more pages found
+2025-10-15 15:23:04,055 - INFO - 🎉 Scraped 0 products from www.thoughtclothing.com
+2025-10-15 15:23:04,057 - INFO - Upserted brand www.thoughtclothing.com into MongoDB
+2025-10-15 15:23:04,070 - INFO - ✅ Rating Calculator Agent available at http://localhost:5002
+2025-10-15 15:23:04,072 - INFO - Scraping category page 1: https://nisolo.com/collections/womens-shoes-sandals
+2025-10-15 15:23:06,341 - WARNING -   ⚠️  Regular fetch failed: 404 Client Error: Not Found for url: https://nisolo.com/collections/womens-shoes-sandals
+2025-10-15 15:23:06,341 - INFO -   ⚡ Trying Selenium for https://nisolo.com/collections/womens-shoes-sandals
+2025-10-15 15:23:06,341 - INFO - 🌐 Initializing Selenium WebDriver...
+2025-10-15 15:23:06,342 - INFO - ====== WebDriver manager ======
+2025-10-15 15:23:06,548 - INFO - Get LATEST chromedriver version for google-chrome
+2025-10-15 15:23:07,427 - INFO - Get LATEST chromedriver version for google-chrome
+2025-10-15 15:23:07,992 - INFO - Driver [/Users/yasiruvithana/.wdm/drivers/chromedriver/mac64/141.0.7390.78/chromedriver-mac-arm64/chromedriver] found in cache
+2025-10-15 15:23:09,378 - INFO - ✅ Selenium WebDriver initialized successfully
+2025-10-15 15:23:09,378 - INFO -   🌐 Loading with Selenium: https://nisolo.com/collections/womens-shoes-sandals
+2025-10-15 15:23:16,909 - INFO -   ✅ Page loaded (found: a[href*="/products/"])
+2025-10-15 15:23:27,381 - INFO -   📄 Page content: 7924 characters
+2025-10-15 15:23:27,512 - INFO -   📦 Found 0 product links on page 1
+2025-10-15 15:23:27,563 - INFO -   ℹ️  No more pages found
+2025-10-15 15:23:29,518 - INFO - 🎉 Scraped 0 products from nisolo.com
+2025-10-15 15:23:29,585 - INFO - Upserted brand nisolo.com into MongoDB
+2025-10-15 15:23:29,591 - INFO - SUCCESS: Scraping complete. Data saved to /Users/yasiruvithana/sustainable-shopping-planner-2/agents/brand_data_collector/brand_data.json

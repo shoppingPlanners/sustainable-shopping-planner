@@ -1,4 +1,2 @@
-https://automationexercise.com/products
-http://automationpractice.pl/index.php?id_category=3&controller=category
-https://webscraper.io/test-sites/e-commerce/static/computers/laptops
-https://scrapeme.live/shop/
+# Verified working site - Everlane
+https://www.everlane.com/collections/womens-all

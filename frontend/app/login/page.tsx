@@ -6,14 +6,15 @@ import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { Navigation } from "@/components/navigation"
-import { login } from "@/lib/auth"
+import { login as loginAPI } from "@/lib/auth"
+import { useAuth } from "@/lib/auth-context"
 import { useState } from "react"
-import { useRouter } from "next/navigation"
 
 export default function LoginPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const router = useRouter()
+  const { login } = useAuth()
+  
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     const form = e.currentTarget as HTMLFormElement
@@ -29,11 +30,16 @@ export default function LoginPage() {
     setLoading(true)
     setError(null)
     try {
-      await login(email, password)
-      router.push('/')
+      const response = await loginAPI(email, password)
+      // Extract user info from token
+      const payload = JSON.parse(atob(response.access_token.split('.')[1]))
+      const userId = payload.sub
+      const userName = payload.name || email.split('@')[0]
+      
+      // Use AuthContext login to update global state
+      login(response.access_token, userId, email, userName)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Invalid credentials')
-    } finally {
       setLoading(false)
     }
   }

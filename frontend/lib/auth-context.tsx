@@ -29,9 +29,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const token = localStorage.getItem('ssp_token');
       const userId = localStorage.getItem('ssp_user_id');
       const userEmail = localStorage.getItem('ssp_user_email');
-      const userName = localStorage.getItem('ssp_user_name');
+      const userName = localStorage.getItem('ssp_user_name') || userEmail?.split('@')[0] || '';
       
-      if (token && userId && userEmail && userName) {
+      console.log('AuthContext - checking auth:', { token: !!token, userId, userEmail, userName });
+      
+      if (token && userId && userEmail) {
         setUser({ id: userId, email: userEmail, name: userName });
         setIsAuthenticated(true);
       } else {
@@ -51,7 +53,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     localStorage.setItem("ssp_user_name", userName);
     setUser({ id: userId, email: userEmail, name: userName });
     setIsAuthenticated(true);
-    router.push('/dashboard');
+    router.push('/home');
   };
 
   const logoutUser = () => {
@@ -61,7 +63,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     localStorage.removeItem("ssp_user_name");
     setUser(null);
     setIsAuthenticated(false);
-    router.push('/login');
+    router.push('/');
   };
 
   return (

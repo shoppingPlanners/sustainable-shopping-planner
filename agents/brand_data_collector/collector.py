@@ -23,8 +23,10 @@ def get_config_for_url(url):
     domain = urlparse(url).netloc.replace('www.', '')
     if domain in SITE_CONFIGS:
         return SITE_CONFIGS[domain]
-    logging.warning(f"No specific configuration for {domain}. Scraper may not work correctly.")
-    return None
+    
+    # Use universal Shopify config as fallback
+    logging.info(f"No specific config for {domain}. Using universal Shopify selectors.")
+    return SITE_CONFIGS.get('shopify_default')
 
 def main():
     """Main function to run the data collection agent."""
@@ -34,7 +36,7 @@ def main():
     load_dotenv()
     try:
         with open(WEBSITES_FILE, "r") as f:
-            start_urls = [line.strip() for line in f if line.strip()]
+            start_urls = [line.strip() for line in f if line.strip() and not line.strip().startswith('#')]
     except FileNotFoundError:
         logging.error(f"FATAL: The file '{WEBSITES_FILE}' was not found. Please create it.")
         return

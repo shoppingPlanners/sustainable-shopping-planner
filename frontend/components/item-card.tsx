@@ -3,7 +3,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Leaf, Star, ExternalLink, Heart, ShoppingCart } from "lucide-react";
+import { Leaf, Star, ExternalLink, Heart, ShoppingCart, Award, Sparkles } from "lucide-react";
 import { useItemTracking } from "@/hooks/use-tracking";
 import { useState } from "react";
 
@@ -20,6 +20,9 @@ interface Item {
   category: string;
   match_score?: number;
   reason?: string;
+  sustainability_focus?: string[];
+  is_bestseller?: boolean;
+  description?: string;
 }
 
 interface ItemCardProps {
@@ -89,6 +92,22 @@ export function ItemCard({
           onLoad={handleImageLoad}
         />
         
+        {/* Badges Overlay */}
+        <div className="absolute bottom-2 left-2 flex flex-col gap-1">
+          {item.is_bestseller && (
+            <Badge className="bg-amber-500 text-white border-none shadow-lg">
+              <Sparkles className="h-3 w-3 mr-1" />
+              Bestseller
+            </Badge>
+          )}
+          {item.sustainabilityScore >= 75 && (
+            <Badge className="bg-green-600 text-white border-none shadow-lg">
+              <Leaf className="h-3 w-3 mr-1" />
+              Highly Sustainable
+            </Badge>
+          )}
+        </div>
+
         {/* Wishlist Button */}
         <Button
           variant="ghost"
@@ -130,53 +149,83 @@ export function ItemCard({
         </div>
       </CardHeader>
 
-      <CardContent className="pt-0 space-y-4">
+      <CardContent className="pt-0 space-y-3">
         {/* Match Score (if available) */}
         {showMatchScore && item.match_score && (
-          <div className="flex items-center justify-between">
-            <Badge variant="secondary" className="bg-primary/10 text-primary">
-              {item.match_score}% Match
-            </Badge>
-            <div className="text-xs text-muted-foreground text-right max-w-[200px]">
-              {item.reason}
+          <div className="bg-primary/5 rounded-lg p-2 border border-primary/10">
+            <div className="flex items-center justify-between gap-2">
+              <Badge variant="secondary" className="bg-primary/10 text-primary font-semibold">
+                <Award className="h-3 w-3 mr-1" />
+                {item.match_score}% Match
+              </Badge>
+              <div className="text-xs text-muted-foreground text-right flex-1">
+                {item.reason}
+              </div>
             </div>
           </div>
+        )}
+
+        {/* Description (if available) */}
+        {item.description && (
+          <p className="text-xs text-muted-foreground line-clamp-2">
+            {item.description}
+          </p>
         )}
 
         {/* Ratings */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1">
-            <Star className="h-4 w-4 fill-accent text-accent" />
-            <span className="text-sm font-medium text-foreground">{item.rating}</span>
-            <span className="text-sm text-muted-foreground">(124 reviews)</span>
+            <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
+            <span className="text-sm font-medium text-foreground">{item.rating.toFixed(1)}</span>
+            <span className="text-xs text-muted-foreground ml-1">rating</span>
           </div>
           <div className="flex items-center gap-1">
-            <Leaf className="h-4 w-4 text-primary" />
-            <span className="text-sm font-medium text-primary">{item.sustainabilityScore}%</span>
+            <Leaf className="h-4 w-4 text-green-600" />
+            <span className="text-sm font-medium text-green-600">{item.sustainabilityScore}/100</span>
           </div>
         </div>
 
-        {/* Features */}
-        <div className="flex flex-wrap gap-1">
-          {item.features.slice(0, 3).map((feature, index) => (
-            <Badge
-              key={index}
-              variant="secondary"
-              className="text-xs bg-secondary/50 text-secondary-foreground cursor-pointer hover:bg-secondary/70"
-              onClick={(e) => {
-                e.stopPropagation();
-                handleFeatureClick(feature);
-              }}
-            >
-              {feature}
-            </Badge>
-          ))}
-          {item.features.length > 3 && (
-            <Badge variant="outline" className="text-xs">
-              +{item.features.length - 3} more
-            </Badge>
-          )}
-        </div>
+        {/* Sustainability Focus (if available) */}
+        {item.sustainability_focus && item.sustainability_focus.length > 0 && (
+          <div className="flex flex-wrap gap-1">
+            {item.sustainability_focus.slice(0, 2).map((focus, index) => (
+              <Badge
+                key={index}
+                variant="outline"
+                className="text-xs border-green-600/30 text-green-700 bg-green-50 dark:bg-green-950 dark:text-green-300"
+              >
+                <Leaf className="h-3 w-3 mr-1" />
+                {focus}
+              </Badge>
+            ))}
+            {item.sustainability_focus.length > 2 && (
+              <Badge variant="outline" className="text-xs border-green-600/30 text-green-700">
+                +{item.sustainability_focus.length - 2}
+              </Badge>
+            )}
+          </div>
+        )}
+
+        {/* Available Sizes */}
+        {item.features && item.features.length > 0 && (
+          <div className="flex flex-wrap gap-1">
+            <span className="text-xs text-muted-foreground mr-1">Sizes:</span>
+            {item.features.slice(0, 4).map((feature, index) => (
+              <Badge
+                key={index}
+                variant="secondary"
+                className="text-xs bg-secondary/50 text-secondary-foreground"
+              >
+                {feature}
+              </Badge>
+            ))}
+            {item.features.length > 4 && (
+              <Badge variant="outline" className="text-xs">
+                +{item.features.length - 4}
+              </Badge>
+            )}
+          </div>
+        )}
 
         {/* Action Buttons */}
         <div className="flex gap-2">

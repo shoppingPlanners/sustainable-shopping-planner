@@ -1,0 +1,184 @@
+2025-10-15 14:59:51,056 - INFO - Brand Data Collector Agent: Initializing...
+2025-10-15 14:59:51,059 - INFO - Connected to MongoDB
+2025-10-15 14:59:51,059 - WARNING - No specific configuration for . Scraper may not work correctly.
+2025-10-15 14:59:51,091 - INFO - ✅ Rating Calculator Agent available at http://localhost:5002
+2025-10-15 14:59:51,091 - INFO - Scraping category page 1: https://www.patagonia.com/shop/womens-clothing
+2025-10-15 14:59:53,103 - INFO - Found 0 product links on page 1.
+2025-10-15 14:59:53,103 - INFO - No more pages found. Ending crawl for this category.
+2025-10-15 14:59:53,114 - INFO - Upserted brand www.patagonia.com into MongoDB
+2025-10-15 14:59:53,121 - INFO - ✅ Rating Calculator Agent available at http://localhost:5002
+2025-10-15 14:59:53,123 - INFO - Scraping category page 1: https://www.thereformation.com/categories/clothing
+2025-10-15 14:59:53,986 - ERROR - Could not fetch https://www.thereformation.com/categories/clothing. Reason: 404 Client Error: Not Found for url: https://www.thereformation.com/categories/clothing
+2025-10-15 14:59:53,989 - INFO - Upserted brand www.thereformation.com into MongoDB
+2025-10-15 14:59:53,998 - INFO - ✅ Rating Calculator Agent available at http://localhost:5002
+2025-10-15 14:59:54,000 - INFO - Scraping category page 1: https://www.everlane.com/collections/womens-apparel
+2025-10-15 14:59:54,488 - ERROR - Could not fetch https://www.everlane.com/collections/womens-apparel. Reason: 404 Client Error: Not Found for url: https://www.everlane.com/collections/womens-apparel
+2025-10-15 14:59:54,489 - INFO - Upserted brand www.everlane.com into MongoDB
+2025-10-15 14:59:54,496 - INFO - ✅ Rating Calculator Agent available at http://localhost:5002
+2025-10-15 14:59:54,497 - INFO - Scraping category page 1: https://wearpact.com/collections/womens-clothing
+2025-10-15 14:59:56,347 - INFO - Found 0 product links on page 1.
+2025-10-15 14:59:56,348 - INFO - No more pages found. Ending crawl for this category.
+2025-10-15 14:59:56,349 - INFO - Upserted brand wearpact.com into MongoDB
+2025-10-15 14:59:56,358 - INFO - ✅ Rating Calculator Agent available at http://localhost:5002
+2025-10-15 14:59:56,360 - INFO - Scraping category page 1: https://www.thoughtclothing.com/collections/womens-clothing
+2025-10-15 14:59:56,709 - INFO - Found 0 product links on page 1.
+2025-10-15 14:59:56,709 - INFO - No more pages found. Ending crawl for this category.
+2025-10-15 14:59:56,713 - INFO - Upserted brand www.thoughtclothing.com into MongoDB
+2025-10-15 14:59:56,719 - INFO - ✅ Rating Calculator Agent available at http://localhost:5002
+2025-10-15 14:59:56,721 - INFO - Scraping category page 1: https://organicbasics.com/collections/womens
+2025-10-15 14:59:57,631 - ERROR - Could not fetch https://organicbasics.com/collections/womens. Reason: 404 Client Error: Not Found for url: https://organicbasics.com/collections/womens
+2025-10-15 14:59:57,632 - INFO - Upserted brand organicbasics.com into MongoDB
+2025-10-15 14:59:57,632 - WARNING - No specific configuration for . Scraper may not work correctly.
+2025-10-15 14:59:57,638 - INFO - ✅ Rating Calculator Agent available at http://localhost:5002
+2025-10-15 14:59:57,640 - INFO - Scraping category page 1: https://www.allbirds.com/collections/womens
+2025-10-15 14:59:58,176 - INFO - Found 0 product links on page 1.
+2025-10-15 14:59:58,186 - INFO - No more pages found. Ending crawl for this category.
+2025-10-15 14:59:58,187 - INFO - Upserted brand www.allbirds.com into MongoDB
+2025-10-15 14:59:58,194 - INFO - ✅ Rating Calculator Agent available at http://localhost:5002
+2025-10-15 14:59:58,195 - INFO - Scraping category page 1: https://nisolo.com/collections/womens-shoes
+2025-10-15 14:59:59,699 - INFO - Found 0 product links on page 1.
+2025-10-15 14:59:59,711 - INFO - No more pages found. Ending crawl for this category.
+2025-10-15 14:59:59,713 - INFO - Upserted brand nisolo.com into MongoDB
+2025-10-15 14:59:59,720 - INFO - ✅ Rating Calculator Agent available at http://localhost:5002
+2025-10-15 14:59:59,722 - INFO - Scraping category page 1: https://www.rothys.com/collections/womens-shoes
+2025-10-15 15:00:00,537 - INFO - Found 0 product links on page 1.
+2025-10-15 15:00:00,543 - INFO - No more pages found. Ending crawl for this category.
+2025-10-15 15:00:00,544 - INFO - Upserted brand www.rothys.com into MongoDB
+2025-10-15 15:00:00,551 - INFO - ✅ Rating Calculator Agent available at http://localhost:5002
+2025-10-15 15:00:00,554 - INFO - Scraping category page 1: https://www.vivobarefoot.com/us/womens
+2025-10-15 15:00:01,201 - ERROR - Could not fetch https://www.vivobarefoot.com/us/womens. Reason: 403 Client Error: Forbidden for url: https://www.vivobarefoot.com/us/womens
+2025-10-15 15:00:01,202 - INFO - Upserted brand www.vivobarefoot.com into MongoDB
+2025-10-15 15:00:01,202 - WARNING - No specific configuration for . Scraper may not work correctly.
+2025-10-15 15:00:01,209 - INFO - ✅ Rating Calculator Agent available at http://localhost:5002
+2025-10-15 15:00:01,210 - INFO - Scraping category page 1: https://kotn.com/collections/womens
+2025-10-15 15:00:02,305 - INFO - Found 0 product links on page 1.
+2025-10-15 15:00:02,306 - INFO - No more pages found. Ending crawl for this category.
+2025-10-15 15:00:02,307 - INFO - Upserted brand kotn.com into MongoDB
+2025-10-15 15:00:02,318 - INFO - ✅ Rating Calculator Agent available at http://localhost:5002
+2025-10-15 15:00:02,320 - INFO - Scraping category page 1: https://www.matethelabel.com/collections/all
+2025-10-15 15:00:03,389 - INFO - Found 0 product links on page 1.
+2025-10-15 15:00:03,392 - INFO - No more pages found. Ending crawl for this category.
+2025-10-15 15:00:03,394 - INFO - Upserted brand www.matethelabel.com into MongoDB
+2025-10-15 15:00:03,400 - INFO - ✅ Rating Calculator Agent available at http://localhost:5002
+2025-10-15 15:00:03,402 - INFO - Scraping category page 1: https://www.alternativeapparel.com/collections/womens
+2025-10-15 15:00:08,436 - ERROR - Could not fetch https://www.alternativeapparel.com/collections/womens. Reason: 404 Client Error: Not Found for url: https://alternativeapparel.com/collections/womens
+2025-10-15 15:00:08,437 - INFO - Upserted brand www.alternativeapparel.com into MongoDB
+2025-10-15 15:00:08,445 - INFO - ✅ Rating Calculator Agent available at http://localhost:5002
+2025-10-15 15:00:08,447 - INFO - Scraping category page 1: https://www.armedangels.com/us-en/women
+2025-10-15 15:00:09,927 - ERROR - Could not fetch https://www.armedangels.com/us-en/women. Reason: 404 Client Error: Not Found for url: https://www.armedangels.com/us-en/women
+2025-10-15 15:00:09,928 - INFO - Upserted brand www.armedangels.com into MongoDB
+2025-10-15 15:00:09,928 - WARNING - No specific configuration for . Scraper may not work correctly.
+2025-10-15 15:00:09,936 - INFO - ✅ Rating Calculator Agent available at http://localhost:5002
+2025-10-15 15:00:09,937 - INFO - Scraping category page 1: https://girlfriend.com/collections/all
+2025-10-15 15:00:10,417 - INFO - Found 0 product links on page 1.
+2025-10-15 15:00:10,425 - INFO - No more pages found. Ending crawl for this category.
+2025-10-15 15:00:10,431 - INFO - Upserted brand girlfriend.com into MongoDB
+2025-10-15 15:00:10,441 - INFO - ✅ Rating Calculator Agent available at http://localhost:5002
+2025-10-15 15:00:10,442 - INFO - Scraping category page 1: https://www.tentree.com/collections/womens
+2025-10-15 15:00:11,639 - INFO - Found 0 product links on page 1.
+2025-10-15 15:00:11,641 - INFO - No more pages found. Ending crawl for this category.
+2025-10-15 15:00:11,642 - INFO - Upserted brand www.tentree.com into MongoDB
+2025-10-15 15:00:11,650 - INFO - ✅ Rating Calculator Agent available at http://localhost:5002
+2025-10-15 15:00:11,652 - INFO - Scraping category page 1: https://www.prana.com/women.html
+2025-10-15 15:00:12,656 - INFO - Found 0 product links on page 1.
+2025-10-15 15:00:12,667 - INFO - No more pages found. Ending crawl for this category.
+2025-10-15 15:00:12,668 - INFO - Upserted brand www.prana.com into MongoDB
+2025-10-15 15:00:12,674 - INFO - ✅ Rating Calculator Agent available at http://localhost:5002
+2025-10-15 15:00:12,676 - INFO - Scraping category page 1: https://www.organiccottonplus.com/collections/womens
+2025-10-15 15:00:14,263 - ERROR - Could not fetch https://www.organiccottonplus.com/collections/womens. Reason: 404 Client Error: Not Found for url: https://organiccottonplus.com/collections/womens
+2025-10-15 15:00:14,265 - INFO - Upserted brand www.organiccottonplus.com into MongoDB
+2025-10-15 15:00:14,265 - WARNING - No specific configuration for . Scraper may not work correctly.
+2025-10-15 15:00:14,272 - INFO - ✅ Rating Calculator Agent available at http://localhost:5002
+2025-10-15 15:00:14,275 - INFO - Scraping category page 1: https://www.eileenfisher.com/new-arrivals
+2025-10-15 15:00:14,719 - ERROR - Could not fetch https://www.eileenfisher.com/new-arrivals. Reason: 403 Client Error: Forbidden for url: https://www.eileenfisher.com/new-arrivals
+2025-10-15 15:00:14,722 - INFO - Upserted brand www.eileenfisher.com into MongoDB
+2025-10-15 15:00:14,729 - INFO - ✅ Rating Calculator Agent available at http://localhost:5002
+2025-10-15 15:00:14,729 - INFO - Scraping category page 1: https://cuyana.com/collections/clothing
+2025-10-15 15:00:16,015 - INFO - Found 0 product links on page 1.
+2025-10-15 15:00:16,019 - INFO - Scraping category page 2: https://cuyana.com/collections/clothing?page=2
+2025-10-15 15:00:17,257 - INFO - Found 0 product links on page 2.
+2025-10-15 15:00:17,263 - INFO - Scraping category page 3: https://cuyana.com/collections/clothing?page=3
+2025-10-15 15:00:18,060 - INFO - Found 0 product links on page 3.
+2025-10-15 15:00:18,064 - INFO - No more pages found. Ending crawl for this category.
+2025-10-15 15:00:18,065 - INFO - Upserted brand cuyana.com into MongoDB
+2025-10-15 15:00:18,077 - INFO - ✅ Rating Calculator Agent available at http://localhost:5002
+2025-10-15 15:00:18,079 - INFO - Scraping category page 1: https://www.peopletree.co.uk/womens
+2025-10-15 15:00:18,994 - ERROR - Could not fetch https://www.peopletree.co.uk/womens. Reason: 403 Client Error: Forbidden for url: http://peopletree.eu/womens
+2025-10-15 15:00:18,995 - INFO - Upserted brand www.peopletree.co.uk into MongoDB
+2025-10-15 15:00:19,001 - INFO - ✅ Rating Calculator Agent available at http://localhost:5002
+2025-10-15 15:00:19,002 - INFO - Scraping category page 1: https://www.outerknown.com/collections/womens
+2025-10-15 15:00:20,492 - INFO - Found 0 product links on page 1.
+2025-10-15 15:00:20,553 - INFO - No more pages found. Ending crawl for this category.
+2025-10-15 15:00:20,557 - INFO - Upserted brand www.outerknown.com into MongoDB
+2025-10-15 15:00:20,557 - WARNING - No specific configuration for . Scraper may not work correctly.
+2025-10-15 15:00:20,572 - INFO - ✅ Rating Calculator Agent available at http://localhost:5002
+2025-10-15 15:00:20,579 - INFO - Scraping category page 1: https://www.ableclothing.com/collections/bags
+2025-10-15 15:00:23,703 - INFO - Found 0 product links on page 1.
+2025-10-15 15:00:23,706 - INFO - No more pages found. Ending crawl for this category.
+2025-10-15 15:00:23,707 - INFO - Upserted brand www.ableclothing.com into MongoDB
+2025-10-15 15:00:23,714 - INFO - ✅ Rating Calculator Agent available at http://localhost:5002
+2025-10-15 15:00:23,714 - INFO - Scraping category page 1: https://www.mattandnat.com/collections/handbags
+2025-10-15 15:00:24,591 - ERROR - Could not fetch https://www.mattandnat.com/collections/handbags. Reason: 404 Client Error: Not Found for url: https://mattandnat.com/collections/handbags
+2025-10-15 15:00:24,592 - INFO - Upserted brand www.mattandnat.com into MongoDB
+2025-10-15 15:00:24,600 - INFO - ✅ Rating Calculator Agent available at http://localhost:5002
+2025-10-15 15:00:24,604 - INFO - Scraping category page 1: https://www.angelajoi.com/collections/bags
+2025-10-15 15:00:24,670 - ERROR - Could not fetch https://www.angelajoi.com/collections/bags. Reason: HTTPSConnectionPool(host='www.angelajoi.com', port=443): Max retries exceeded with url: /collections/bags (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x103376210>: Failed to resolve 'www.angelajoi.com' ([Errno 8] nodename nor servname provided, or not known)"))
+2025-10-15 15:00:24,672 - INFO - Upserted brand www.angelajoi.com into MongoDB
+2025-10-15 15:00:24,672 - WARNING - No specific configuration for . Scraper may not work correctly.
+2025-10-15 15:00:24,678 - INFO - ✅ Rating Calculator Agent available at http://localhost:5002
+2025-10-15 15:00:24,678 - INFO - Scraping category page 1: https://www.tradelandco.com/collections/womens
+2025-10-15 15:00:25,093 - INFO - Found 0 product links on page 1.
+2025-10-15 15:00:25,093 - INFO - No more pages found. Ending crawl for this category.
+2025-10-15 15:00:25,094 - INFO - Upserted brand www.tradelandco.com into MongoDB
+2025-10-15 15:00:25,101 - INFO - ✅ Rating Calculator Agent available at http://localhost:5002
+2025-10-15 15:00:25,102 - INFO - Scraping category page 1: https://www.serrv.org/category/clothing-accessories
+2025-10-15 15:00:26,965 - ERROR - Could not fetch https://www.serrv.org/category/clothing-accessories. Reason: 404 Client Error: Not Found for url: https://www.serrv.org/category/clothing-accessories
+2025-10-15 15:00:26,966 - INFO - Upserted brand www.serrv.org into MongoDB
+2025-10-15 15:00:26,972 - INFO - ✅ Rating Calculator Agent available at http://localhost:5002
+2025-10-15 15:00:26,974 - INFO - Scraping category page 1: https://www.globalgoods.com/collections/clothing
+2025-10-15 15:00:28,323 - ERROR - Could not fetch https://www.globalgoods.com/collections/clothing. Reason: 404 Client Error: Not Found for url: https://www.globalgoods.com/collections/clothing
+2025-10-15 15:00:28,324 - INFO - Upserted brand www.globalgoods.com into MongoDB
+2025-10-15 15:00:28,324 - WARNING - No specific configuration for . Scraper may not work correctly.
+2025-10-15 15:00:28,324 - WARNING - No specific configuration for reformation.com. Scraper may not work correctly.
+2025-10-15 15:00:28,332 - INFO - ✅ Rating Calculator Agent available at http://localhost:5002
+2025-10-15 15:00:28,334 - INFO - Scraping category page 1: https://www.agolde.com/collections/denim
+2025-10-15 15:00:29,597 - INFO - Found 0 product links on page 1.
+2025-10-15 15:00:29,612 - INFO - No more pages found. Ending crawl for this category.
+2025-10-15 15:00:29,614 - INFO - Upserted brand www.agolde.com into MongoDB
+2025-10-15 15:00:29,620 - INFO - ✅ Rating Calculator Agent available at http://localhost:5002
+2025-10-15 15:00:29,622 - INFO - Scraping category page 1: https://outlanddenim.com/collections/womens
+2025-10-15 15:00:30,831 - INFO - Found 0 product links on page 1.
+2025-10-15 15:00:30,835 - INFO - No more pages found. Ending crawl for this category.
+2025-10-15 15:00:30,836 - INFO - Upserted brand outlanddenim.com into MongoDB
+2025-10-15 15:00:30,836 - WARNING - No specific configuration for . Scraper may not work correctly.
+2025-10-15 15:00:30,842 - INFO - ✅ Rating Calculator Agent available at http://localhost:5002
+2025-10-15 15:00:30,844 - INFO - Scraping category page 1: https://www.outerknown.com/collections/womens-swim
+2025-10-15 15:00:32,427 - INFO - Found 0 product links on page 1.
+2025-10-15 15:00:32,452 - INFO - No more pages found. Ending crawl for this category.
+2025-10-15 15:00:32,456 - INFO - Upserted brand www.outerknown.com into MongoDB
+2025-10-15 15:00:32,463 - INFO - ✅ Rating Calculator Agent available at http://localhost:5002
+2025-10-15 15:00:32,465 - INFO - Scraping category page 1: https://www.patagonia.com/shop/womens-swimwear
+2025-10-15 15:00:33,870 - INFO - Found 0 product links on page 1.
+2025-10-15 15:00:33,871 - INFO - No more pages found. Ending crawl for this category.
+2025-10-15 15:00:33,873 - INFO - Upserted brand www.patagonia.com into MongoDB
+2025-10-15 15:00:33,873 - WARNING - No specific configuration for . Scraper may not work correctly.
+2025-10-15 15:00:33,881 - INFO - ✅ Rating Calculator Agent available at http://localhost:5002
+2025-10-15 15:00:33,882 - INFO - Scraping category page 1: https://www.wuxly.com/collections/womens
+2025-10-15 15:00:35,640 - INFO - Found 0 product links on page 1.
+2025-10-15 15:00:35,648 - INFO - No more pages found. Ending crawl for this category.
+2025-10-15 15:00:35,650 - INFO - Upserted brand www.wuxly.com into MongoDB
+2025-10-15 15:00:35,657 - INFO - ✅ Rating Calculator Agent available at http://localhost:5002
+2025-10-15 15:00:35,659 - INFO - Scraping category page 1: https://veerah.com/collections/all
+2025-10-15 15:00:37,196 - INFO - Found 0 product links on page 1.
+2025-10-15 15:00:37,197 - INFO - No more pages found. Ending crawl for this category.
+2025-10-15 15:00:37,198 - INFO - Upserted brand veerah.com into MongoDB
+2025-10-15 15:00:37,198 - WARNING - No specific configuration for . Scraper may not work correctly.
+2025-10-15 15:00:37,208 - INFO - ✅ Rating Calculator Agent available at http://localhost:5002
+2025-10-15 15:00:37,211 - INFO - Scraping category page 1: https://www.tonle.com/collections/women
+2025-10-15 15:00:37,406 - ERROR - Could not fetch https://www.tonle.com/collections/women. Reason: HTTPSConnectionPool(host='www.tonle.com', port=443): Max retries exceeded with url: /collections/women (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1028)')))
+2025-10-15 15:00:37,407 - INFO - Upserted brand www.tonle.com into MongoDB
+2025-10-15 15:00:37,413 - INFO - ✅ Rating Calculator Agent available at http://localhost:5002
+2025-10-15 15:00:37,413 - INFO - Scraping category page 1: https://www.christymartindesign.com/collections/womens
+2025-10-15 15:00:37,481 - ERROR - Could not fetch https://www.christymartindesign.com/collections/womens. Reason: HTTPSConnectionPool(host='www.christymartindesign.com', port=443): Max retries exceeded with url: /collections/womens (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x1033751d0>: Failed to resolve 'www.christymartindesign.com' ([Errno 8] nodename nor servname provided, or not known)"))
+2025-10-15 15:00:37,482 - INFO - Upserted brand www.christymartindesign.com into MongoDB
+2025-10-15 15:00:37,485 - INFO - SUCCESS: Scraping complete. Data saved to /Users/yasiruvithana/sustainable-shopping-planner-2/agents/brand_data_collector/brand_data.json

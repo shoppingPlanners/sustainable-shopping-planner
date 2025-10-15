@@ -1,0 +1,18 @@
+2025-10-15 15:24:34,500 - INFO - Brand Data Collector Agent: Initializing...
+2025-10-15 15:24:34,503 - INFO - Connected to MongoDB
+2025-10-15 15:24:34,528 - INFO - ✅ Rating Calculator Agent available at http://localhost:5002
+2025-10-15 15:24:34,528 - INFO - Scraping category page 1: https://kotn.com/collections/womens
+2025-10-15 15:24:37,288 - INFO -   📦 Found 0 product links on page 1
+2025-10-15 15:24:37,288 - INFO -   ℹ️  No more pages found
+2025-10-15 15:24:37,288 - INFO - 🎉 Scraped 0 products from kotn.com
+2025-10-15 15:24:37,319 - INFO - Upserted brand kotn.com into MongoDB
+2025-10-15 15:24:37,327 - INFO - ✅ Rating Calculator Agent available at http://localhost:5002
+2025-10-15 15:24:37,329 - INFO - Scraping category page 1: https://www.thoughtclothing.com/collections/womens
+2025-10-15 15:24:40,506 - INFO -   ⚡ Page appears JavaScript-rendered, trying Selenium...
+2025-10-15 15:24:40,506 - INFO - 🌐 Initializing Selenium WebDriver...
+2025-10-15 15:24:40,507 - INFO - ====== WebDriver manager ======
+2025-10-15 15:24:40,922 - INFO - Get LATEST chromedriver version for google-chrome
+2025-10-15 15:24:41,516 - INFO - Get LATEST chromedriver version for google-chrome
+2025-10-15 15:24:42,083 - INFO - Driver [/Users/yasiruvithana/.wdm/drivers/chromedriver/mac64/141.0.7390.78/chromedriver-mac-arm64/chromedriver] found in cache
+2025-10-15 15:24:44,187 - INFO - ✅ Selenium WebDriver initialized successfully
+2025-10-15 15:24:44,187 - INFO -   🌐 Loading with Selenium: https://www.thoughtclothing.com/collections/womens

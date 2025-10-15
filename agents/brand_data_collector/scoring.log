@@ -1,0 +1,68 @@
+======================================================================
+  🤖 AGENT INTEGRATION: Product Scoring
+======================================================================
+
+This demonstrates proper multi-agent collaboration:
+  Agent 1 (Brand Collector) → Agent 2 (Rating Calculator)
+
+✅ Rating Calculator Agent is running
+
+📊 Connecting to database...
+✅ Connected to MongoDB
+✅ Found 7 brands with 470 products
+
+🔄 Scoring products using Rating Calculator Agent...
+
+[1/7] patagonia.com (80 products)
+  ✅ Women's Better Sweater Fleece Jacket     Score:  86/100 | Rating: 4.5
+  ✅ Women's Better Sweater Fleece Jacket     Score:  86/100 | Rating: 4.5
+  ✅ Women's Better Sweater Fleece Jacket     Score:  86/100 | Rating: 4.5
+[2/7] everlane.com (80 products)
+  ✅ Organic Cotton Box-Cut Tee               Score: 100/100 | Rating: 5.0
+  ✅ Organic Cotton Box-Cut Tee               Score: 100/100 | Rating: 5.0
+  ✅ Organic Cotton Box-Cut Tee               Score: 100/100 | Rating: 5.0
+[3/7] thereformation.com (70 products)
+  ✅ Linen Midi Dress                         Score:  85/100 | Rating: 4.5
+  ✅ Linen Midi Dress                         Score:  85/100 | Rating: 4.5
+  ✅ Linen Midi Dress                         Score:  87/100 | Rating: 4.6
+[4/7] wearpact.com (60 products)
+  ✅ Organic Cotton V-Neck Tee                Score: 100/100 | Rating: 5.0
+  ✅ Organic Cotton V-Neck Tee                Score:  99/100 | Rating: 5.0
+  ✅ Organic Cotton V-Neck Tee                Score:  99/100 | Rating: 5.0
+[5/7] tentree.com (70 products)
+  ✅ Women's TreeFleece Zip Hoodie            Score:  91/100 | Rating: 4.7
+  ✅ Women's TreeFleece Zip Hoodie            Score:  91/100 | Rating: 4.7
+  ✅ Women's TreeFleece Zip Hoodie            Score:  91/100 | Rating: 4.7
+[6/7] organicbasics.com (60 products)
+  ✅ Organic Cotton T-Shirt                   Score: 100/100 | Rating: 5.0
+  ✅ Organic Cotton T-Shirt                   Score: 100/100 | Rating: 5.0
+  ✅ Organic Cotton T-Shirt                   Score: 100/100 | Rating: 5.0
+[7/7] eileenfisher.com (50 products)
+  ✅ Organic Linen Shirt                      Score:  97/100 | Rating: 4.9
+  ✅ Organic Linen Shirt                      Score:  97/100 | Rating: 4.9
+  ✅ Organic Linen Shirt                      Score:  97/100 | Rating: 4.9
+
+======================================================================
+  📊 SCORING COMPLETE
+======================================================================
+
+✅ Scored 470 products using Rating Calculator Agent
+✅ Updated 7 brands in database
+
+📦 Sample Scored Products:
+   1. Women's Better Sweater Fleece Jacket          | Score:  86/100 | Rating: 4.5
+      Breakdown: Materials +5, Certs +20, Focus +5
+   2. Women's Better Sweater Fleece Jacket          | Score:  86/100 | Rating: 4.5
+      Breakdown: Materials +5, Certs +20, Focus +5
+   3. Women's Better Sweater Fleece Jacket          | Score:  86/100 | Rating: 4.5
+      Breakdown: Materials +5, Certs +20, Focus +5
+   4. Organic Cotton Box-Cut Tee                    | Score: 100/100 | Rating: 5.0
+   5. Organic Cotton Box-Cut Tee                    | Score: 100/100 | Rating: 5.0
+   6. Organic Cotton Box-Cut Tee                    | Score: 100/100 | Rating: 5.0
+   7. Linen Midi Dress                              | Score:  85/100 | Rating: 4.5
+   8. Linen Midi Dress                              | Score:  85/100 | Rating: 4.5
+   9. Linen Midi Dress                              | Score:  87/100 | Rating: 4.6
+
+🎉 Agent integration successful!
+   The Rating Calculator Agent is now properly scoring products.
+

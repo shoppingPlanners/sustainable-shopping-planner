@@ -84,7 +84,7 @@ class RecommendationEngine:
         """Generate personalized product suggestions"""
         
         try:
-            logger.info(f"Generating suggestions for user {user_id}")
+            logger.info(f"Generating suggestions for user {user_id} with filters: {filters}")
             
             # Step 1: Get user behavior data
             user_data = await self._get_user_data(user_id)
@@ -96,13 +96,52 @@ class RecommendationEngine:
                 logger.warning("No products available for recommendations")
                 return []
             
+            logger.info(f"Retrieved {len(products)} products from catalog")
+            
+            # Apply filters first
+            if filters:
+                category_filter = filters.get('category')
+                if category_filter and category_filter != 'all':
+                    # Filter by category - use actual category field from database
+                    filtered = []
+                    for p in products:
+                        product_category = p.get('category', '').lower()
+                        product_name = p.get('product_name', '').lower()
+                        category_lower = category_filter.lower()
+                        
+                        # Match category using database category field (more accurate)
+                        category_match = False
+                        
+                        if (category_lower == 'dresses' and 'dress' in product_category) or \
+                           (category_lower == 't-shirts' and 't-shirt' in product_category) or \
+                           (category_lower == 'tops' and 'top' in product_category) or \
+                           (category_lower == 'activewear' and 'activewear' in product_category) or \
+                           (category_lower == 'bottoms' and ('bottom' in product_category or 'jean' in product_category)) or \
+                           (category_lower == 'jackets' and ('jacket' in product_category or 'outerwear' in product_category)) or \
+                           (category_lower == 'accessories' and 'accessor' in product_category) or \
+                           (category_lower == 'footwear' and 'footwear' in product_category) or \
+                           (category_lower == 'summer' and ('summer' in product_category or 'summer' in product_name)) or \
+                           (category_lower in product_category or category_lower in product_name):
+                            category_match = True
+                        
+                        if category_match:
+                            filtered.append(p)
+                    
+                    products = filtered
+                    logger.info(f"After category filter '{category_filter}': {len(products)} products")
+            
+            if not products:
+                logger.warning(f"No products match filters: {filters}")
+                return []
+            
             # Step 3: Calculate recommendation scores
             scored_products = []
             
             for product in products:
                 score = self._calculate_recommendation_score(user_data, product)
                 
-                if score > 0.3:  # Threshold
+                # Lower threshold to 0.1 to allow more matches
+                if score > 0.1:
                     suggestion = {
                         'product_id': product.get('id', product.get('product_url', '')),
                         'product_name': product.get('product_name', 'Unknown'),
@@ -112,9 +151,12 @@ class RecommendationEngine:
                         'recommendation_score': round(score, 3),
                         'reasons': self._generate_reasons(user_data, product, score),
                         'category': product.get('category', 'General'),
-                        'url': product.get('product_url', '#')
+                        'url': product.get('product_url', '#'),
+                        'sustainability_focus': product.get('sustainability_focus', [])
                     }
                     scored_products.append(suggestion)
+            
+            logger.info(f"Products passing score threshold: {len(scored_products)}")
             
             # Step 4: Sort and diversify
             scored_products.sort(key=lambda x: x['recommendation_score'], reverse=True)
@@ -124,7 +166,7 @@ class RecommendationEngine:
             return diversified
             
         except Exception as e:
-            logger.error(f"Error generating suggestions: {e}")
+            logger.error(f"Error generating suggestions: {e}", exc_info=True)
             return await self._get_fallback_recommendations(limit)
     
     def _calculate_recommendation_score(
@@ -168,19 +210,16 @@ class RecommendationEngine:
         """Calculate how well product matches user preferences"""
         
         score = 0.0
-        matches = 0
         
         # Category match
         preferred_categories = user_data.get('preferred_categories', [])
-        if product.get('category') in preferred_categories:
+        if preferred_categories and product.get('category') in preferred_categories:
             score += 0.4
-            matches += 1
         
         # Brand match
         preferred_brands = user_data.get('preferred_brands', [])
-        if product.get('brand_name') in preferred_brands:
+        if preferred_brands and product.get('brand_name') in preferred_brands:
             score += 0.3
-            matches += 1
         
         # Sustainability interests match
         user_interests = user_data.get('sustainability_interests', [])
@@ -190,9 +229,9 @@ class RecommendationEngine:
             overlap = len(set(user_interests) & set(product_focus))
             if overlap > 0:
                 score += min(overlap / max(len(user_interests), 1), 1.0) * 0.3
-                matches += 1
         
-        return score / max(matches, 1) if matches > 0 else 0.5
+        # Return 0.6 as baseline even with no matches (generous scoring)
+        return max(score, 0.6)
     
     def _calculate_price_fit(
         self,

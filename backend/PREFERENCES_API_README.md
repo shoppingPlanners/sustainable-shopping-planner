@@ -111,7 +111,7 @@ Items are ranked by total score and returned with match percentages and explanat
    npm run dev
    ```
 
-3. **Visit** `http://localhost:3000` and fill out the preferences form
+3. **Visit** `http://localhost:3002` and fill out the preferences form
 
 4. **Test API directly**:
    ```bash

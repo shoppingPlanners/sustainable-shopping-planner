@@ -68,7 +68,7 @@ GET http://localhost:8000/api/items/{item_id}
 
 ## Testing
 
-1. Visit `http://localhost:3000/suggestions` to see the items
+1. Visit `http://localhost:3002/suggestions` to see the items
 2. Use the category filter to test filtering
 3. Check the browser console for any errors
 
@@ -76,5 +76,5 @@ GET http://localhost:8000/api/items/{item_id}
 
 - **Connection Error**: Make sure MongoDB is running and accessible
 - **No Data**: Run the `populate_items.py` script to add sample data
-- **CORS Issues**: The backend is configured to allow requests from `http://localhost:3000`
-- **Port Conflicts**: Make sure ports 3000 (frontend) and 8000 (backend) are available
+- **CORS Issues**: The backend is configured to allow requests from `http://localhost:3002`
+- **Port Conflicts**: Make sure ports 3002 (frontend) and 8000 (backend) are available

@@ -52,14 +52,22 @@ async def get_items(
                     if (product_category or "").lower() != category.lower():
                         continue
 
+                # Get price and convert to string
+                price_value = product.get("price", 0)
+                if isinstance(price_value, (int, float)):
+                    price_str = f"${price_value:.2f}"
+                else:
+                    # Extract numeric value if it's already a string like "$48.00"
+                    price_str = str(price_value)
+                
                 item_response = ItemResponse(
                     id=f"{brand_id_str}:{index}",
                     name=product.get("product_name", ""),
                     brand=brand_domain,
-                    rating=0.0,  # No rating provided in brand documents
-                    sustainabilityScore=len(product.get("sustainability_focus", []) or []),
-                    price=product.get("price", ""),
-                    image=product.get("image", ""),  # image not present in provided schema
+                    rating=product.get("rating", 3.5),  # Use rating from Rating Calculator Agent
+                    sustainabilityScore=product.get("sustainability_score", 50),  # Use score from Rating Calculator Agent
+                    price=price_str,
+                    image=product.get("image", ""),
                     buyUrl=product.get("product_url", ""),
                     features=product.get("available_sizes", []) or [],
                     category=product_category,
@@ -100,13 +108,20 @@ async def get_item(item_id: str):
         product = products[index]
         product_category = product.get("category", "N/A") or "N/A"
 
+        # Get price and convert to string
+        price_value = product.get("price", 0)
+        if isinstance(price_value, (int, float)):
+            price_str = f"${price_value:.2f}"
+        else:
+            price_str = str(price_value)
+
         item_response = ItemResponse(
             id=f"{brand_id_str}:{index}",
             name=product.get("product_name", ""),
             brand=brand_doc.get("brand_domain", ""),
-            rating=0.0,
-            sustainabilityScore=len(product.get("sustainability_focus", []) or []),
-            price=product.get("price", ""),
+            rating=product.get("rating", 3.5),  # Use rating from Rating Calculator Agent
+            sustainabilityScore=product.get("sustainability_score", 50),  # Use score from Rating Calculator Agent
+            price=price_str,
             image=product.get("image", ""),
             buyUrl=product.get("product_url", ""),
             features=product.get("available_sizes", []) or [],

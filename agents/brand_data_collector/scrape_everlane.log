@@ -1,0 +1,44 @@
+2025-10-15 15:31:43,977 - INFO - Brand Data Collector Agent: Initializing...
+2025-10-15 15:31:43,980 - INFO - Connected to MongoDB
+2025-10-15 15:31:43,997 - INFO - ✅ Rating Calculator Agent available at http://localhost:5002
+2025-10-15 15:31:43,997 - INFO - Scraping category page 1: https://www.everlane.com/collections/womens-all
+2025-10-15 15:31:46,237 - INFO -   🌐 Using Selenium for JavaScript-heavy site
+2025-10-15 15:31:46,241 - INFO - 🌐 Initializing Selenium WebDriver...
+2025-10-15 15:31:46,243 - INFO - ====== WebDriver manager ======
+2025-10-15 15:31:46,926 - INFO - Get LATEST chromedriver version for google-chrome
+2025-10-15 15:31:47,498 - INFO - Get LATEST chromedriver version for google-chrome
+2025-10-15 15:31:48,107 - INFO - Driver [/Users/yasiruvithana/.wdm/drivers/chromedriver/mac64/141.0.7390.78/chromedriver-mac-arm64/chromedriver] found in cache
+2025-10-15 15:31:49,487 - INFO - ✅ Selenium WebDriver initialized successfully
+2025-10-15 15:31:49,487 - INFO -   🌐 Loading with Selenium: https://www.everlane.com/collections/womens-all
+2025-10-15 15:31:58,523 - INFO -   ✅ Page loaded (found: a[href*="/products/"])
+2025-10-15 15:32:15,377 - INFO -   📄 Page content: 18266 characters
+2025-10-15 15:32:15,741 - INFO -   📦 Found 104 product links on page 1
+2025-10-15 15:32:15,741 - INFO -   [1/10] Scraping product...
+2025-10-15 15:32:15,741 - INFO -   -> Scraping product details from: https://www.everlane.com/products/womens-organic-cotton-box-cut-tee-white
+2025-10-15 15:32:17,991 - INFO -   🌐 Using Selenium for JavaScript-heavy site
+2025-10-15 15:32:17,991 - INFO -   🌐 Loading with Selenium: https://www.everlane.com/products/womens-organic-cotton-box-cut-tee-white
+2025-10-15 15:32:21,845 - INFO -   ✅ Page loaded (found: a[href*="/products/"])
+2025-10-15 15:32:38,140 - INFO -   📄 Page content: 23989 characters
+2025-10-15 15:32:38,290 - INFO -   ✅ Product scored: 53/100 (by rating_calculator_agent)
+2025-10-15 15:32:38,290 - INFO -   ✅ Product added (Total: 1)
+2025-10-15 15:32:38,290 - INFO -   [2/10] Scraping product...
+2025-10-15 15:32:38,290 - INFO -   -> Scraping product details from: https://www.everlane.com/products/womens-organic-cotton-box-cut-tee-white
+2025-10-15 15:32:40,111 - INFO -   🌐 Using Selenium for JavaScript-heavy site
+2025-10-15 15:32:40,111 - INFO -   🌐 Loading with Selenium: https://www.everlane.com/products/womens-organic-cotton-box-cut-tee-white
+2025-10-15 15:32:43,608 - INFO -   ✅ Page loaded (found: a[href*="/products/"])
+2025-10-15 15:32:59,891 - INFO -   📄 Page content: 23989 characters
+2025-10-15 15:33:00,067 - INFO -   ✅ Product scored: 53/100 (by rating_calculator_agent)
+2025-10-15 15:33:00,067 - INFO -   ✅ Product added (Total: 2)
+2025-10-15 15:33:00,067 - INFO -   [3/10] Scraping product...
+2025-10-15 15:33:00,067 - INFO -   -> Scraping product details from: https://www.everlane.com/products/womens-everywhere-pant-navy
+2025-10-15 15:33:01,942 - INFO -   🌐 Using Selenium for JavaScript-heavy site
+2025-10-15 15:33:01,942 - INFO -   🌐 Loading with Selenium: https://www.everlane.com/products/womens-everywhere-pant-navy
+2025-10-15 15:33:06,842 - INFO -   ✅ Page loaded (found: a[href*="/products/"])
+2025-10-15 15:33:23,380 - INFO -   📄 Page content: 19483 characters
+2025-10-15 15:33:23,537 - INFO -   ✅ Product scored: 53/100 (by rating_calculator_agent)
+2025-10-15 15:33:23,537 - INFO -   ✅ Product added (Total: 3)
+2025-10-15 15:33:23,537 - INFO -   [4/10] Scraping product...
+2025-10-15 15:33:23,537 - INFO -   -> Scraping product details from: https://www.everlane.com/products/womens-everywhere-pant-navy
+2025-10-15 15:33:25,632 - INFO -   🌐 Using Selenium for JavaScript-heavy site
+2025-10-15 15:33:25,633 - INFO -   🌐 Loading with Selenium: https://www.everlane.com/products/womens-everywhere-pant-navy
+2025-10-15 15:33:28,935 - INFO -   ✅ Page loaded (found: a[href*="/products/"])
