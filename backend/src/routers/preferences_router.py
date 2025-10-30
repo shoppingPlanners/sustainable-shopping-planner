@@ -554,3 +554,45 @@ async def get_recent_preferences():
             return {}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to get recent preferences: {str(e)}")
+
+
+@router.get("/analysis")
+async def get_preferences_analysis():
+    """
+    Get overall analysis of user_preferences across all submissions.
+    Returns totals and most frequent values per field.
+    """
+    try:
+        coll = mongo_db.user_preferences
+
+        total = coll.count_documents({})
+        last_doc = coll.find().sort("timestamp", -1).limit(1)
+        last_pref = next(last_doc, None)
+        if last_pref and "_id" in last_pref:
+            del last_pref["_id"]
+
+        def top_value_for(field: str) -> Optional[Dict[str, Any]]:
+            pipeline = [
+                {"$match": {field: {"$exists": True, "$ne": None, "$ne": ""}}},
+                {"$group": {"_id": f"${field}", "count": {"$sum": 1}}},
+                {"$sort": {"count": -1}},
+                {"$limit": 1},
+            ]
+            result = list(coll.aggregate(pipeline))
+            if result:
+                return {"value": result[0]["_id"], "count": result[0]["count"]}
+            return None
+
+        analysis = {
+            "total_submissions": total,
+            "top_category": top_value_for("category"),
+            "top_budget": top_value_for("budget"),
+            "top_style": top_value_for("style"),
+            "top_sustainability_priorities": top_value_for("sustainability_priorities"),
+            "top_size": top_value_for("size"),
+            "last_preference": last_pref or {},
+        }
+
+        return {"success": True, "analysis": analysis}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to analyze preferences: {str(e)}")

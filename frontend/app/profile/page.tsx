@@ -14,18 +14,50 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { useAuth } from "@/lib/auth-context"
 import { User, Crown, Settings, Bell, Shield, CreditCard, Star } from "lucide-react"
 import { useRouter } from "next/navigation"
+import { BACKEND_URL } from "@/lib/config"
 
 export default function ProfilePage() {
   const { user } = useAuth()
   const router = useRouter()
   const [isEditing, setIsEditing] = useState(false)
   const [userTier, setUserTier] = useState("Free")
+  const [prefsLoading, setPrefsLoading] = useState(true)
+  const [prefsAnalysis, setPrefsAnalysis] = useState<{
+    total_submissions?: number,
+    top_category?: { value: string, count: number } | null,
+    top_budget?: { value: string, count: number } | null,
+    top_style?: { value: string, count: number } | null,
+    top_sustainability_priorities?: { value: string, count: number } | null,
+    top_size?: { value: string, count: number } | null,
+    last_preference?: Record<string, any>
+  } | null>(null)
 
   useEffect(() => {
     if (!user) {
       router.push('/login')
     }
   }, [user, router])
+
+  // Load overall preferences analysis (from user_preferences)
+  useEffect(() => {
+    const fetchAnalysis = async () => {
+      try {
+        setPrefsLoading(true)
+        const res = await fetch(`${BACKEND_URL}/api/preferences/analysis`)
+        if (res.ok) {
+          const data = await res.json()
+          setPrefsAnalysis(data?.analysis || null)
+        } else {
+          setPrefsAnalysis(null)
+        }
+      } catch {
+        setPrefsAnalysis(null)
+      } finally {
+        setPrefsLoading(false)
+      }
+    }
+    fetchAnalysis()
+  }, [])
 
   if (!user) return null
 
@@ -219,42 +251,106 @@ export default function ProfilePage() {
           <TabsContent value="preferences" className="space-y-6">
             <Card>
               <CardHeader>
-                <CardTitle>Shopping Preferences</CardTitle>
-                <CardDescription>Customize your recommendations</CardDescription>
+                <CardTitle>Preferences Overview</CardTitle>
+                <CardDescription>Overall analysis from saved user preferences</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <Label>Favorite Categories</Label>
-                  <div className="flex flex-wrap gap-2">
-                    {["Tops & Shirts", "Dresses", "Jackets & Outerwear", "Bottoms & Jeans"].map((cat) => (
-                      <Badge key={cat} variant="secondary" className="cursor-pointer hover:bg-primary hover:text-primary-foreground">
-                        {cat}
-                      </Badge>
-                    ))}
-                  </div>
-                </div>
+                {prefsLoading ? (
+                  <p className="text-sm text-muted-foreground">Loading…</p>
+                ) : prefsAnalysis ? (
+                  <div className="space-y-4">
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                      <div className="p-3 border rounded-lg">
+                        <p className="text-xs text-muted-foreground">Total Submissions</p>
+                        <p className="text-lg font-semibold">{prefsAnalysis.total_submissions || 0}</p>
+                      </div>
+                      <div className="p-3 border rounded-lg">
+                        <p className="text-xs text-muted-foreground">Top Category</p>
+                        <p className="text-lg font-semibold">{prefsAnalysis.top_category?.value || '—'}</p>
+                      </div>
+                      <div className="p-3 border rounded-lg">
+                        <p className="text-xs text-muted-foreground">Top Budget</p>
+                        <p className="text-lg font-semibold">{prefsAnalysis.top_budget?.value || '—'}</p>
+                      </div>
+                      <div className="p-3 border rounded-lg">
+                        <p className="text-xs text-muted-foreground">Top Style</p>
+                        <p className="text-lg font-semibold">{prefsAnalysis.top_style?.value || '—'}</p>
+                      </div>
+                      <div className="p-3 border rounded-lg">
+                        <p className="text-xs text-muted-foreground">Top Sustainability Priority</p>
+                        <p className="text-lg font-semibold">{prefsAnalysis.top_sustainability_priorities?.value || '—'}</p>
+                      </div>
+                      <div className="p-3 border rounded-lg">
+                        <p className="text-xs text-muted-foreground">Top Size</p>
+                        <p className="text-lg font-semibold">{prefsAnalysis.top_size?.value || '—'}</p>
+                      </div>
+                    </div>
 
-                <div className="space-y-2">
-                  <Label>Budget Range</Label>
-                  <div className="flex gap-2">
-                    <Input placeholder="Min" type="number" defaultValue="50" className="w-24" />
-                    <span className="self-center">—</span>
-                    <Input placeholder="Max" type="number" defaultValue="200" className="w-24" />
-                  </div>
-                </div>
+                    <Separator />
 
-                <div className="space-y-2">
-                  <Label>Sustainability Priorities</Label>
-                  <div className="flex flex-wrap gap-2">
-                    {["Organic Materials", "Fair Trade", "Recycled", "Vegan"].map((priority) => (
-                      <Badge key={priority} variant="outline" className="cursor-pointer hover:bg-primary hover:text-primary-foreground">
-                        {priority}
-                      </Badge>
-                    ))}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <p className="text-xs text-muted-foreground">Last Category</p>
+                        <p className="font-medium">{prefsAnalysis.last_preference?.category || '—'}</p>
+                      </div>
+                      <div>
+                        <p className="text-xs text-muted-foreground">Last Budget</p>
+                        <p className="font-medium">{prefsAnalysis.last_preference?.budget || '—'}</p>
+                      </div>
+                      <div>
+                        <p className="text-xs text-muted-foreground">Last Style</p>
+                        <p className="font-medium">{prefsAnalysis.last_preference?.style || '—'}</p>
+                      </div>
+                      <div>
+                        <p className="text-xs text-muted-foreground">Last Sustainability Priorities</p>
+                        <p className="font-medium">{prefsAnalysis.last_preference?.sustainability_priorities || '—'}</p>
+                      </div>
+                      <div>
+                        <p className="text-xs text-muted-foreground">Last Size</p>
+                        <p className="font-medium">{prefsAnalysis.last_preference?.size || '—'}</p>
+                      </div>
+                    </div>
                   </div>
-                </div>
+                ) : (
+                  <p className="text-sm text-muted-foreground">No preferences found.</p>
+                )}
+              </CardContent>
+            </Card>
 
-                <Button>Save Preferences</Button>
+            <Card>
+              <CardHeader>
+                <CardTitle>Shopping Preferences</CardTitle>
+                <CardDescription>Your latest saved preferences</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {prefsLoading ? (
+                  <p className="text-sm text-muted-foreground">Loading…</p>
+                ) : prefsAnalysis ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-1">
+                      <Label>Category</Label>
+                      <Input value={prefsAnalysis.last_preference?.category || ''} disabled />
+                    </div>
+                    <div className="space-y-1">
+                      <Label>Budget</Label>
+                      <Input value={prefsAnalysis.last_preference?.budget || ''} disabled />
+                    </div>
+                    <div className="space-y-1">
+                      <Label>Style</Label>
+                      <Input value={prefsAnalysis.last_preference?.style || ''} disabled />
+                    </div>
+                    <div className="space-y-1">
+                      <Label>Sustainability Priorities</Label>
+                      <Input value={prefsAnalysis.last_preference?.sustainability_priorities || ''} disabled />
+                    </div>
+                    <div className="space-y-1">
+                      <Label>Size</Label>
+                      <Input value={prefsAnalysis.last_preference?.size || ''} disabled />
+                    </div>
+                  </div>
+                ) : (
+                  <p className="text-sm text-muted-foreground">No saved preferences yet.</p>
+                )}
               </CardContent>
             </Card>
 
